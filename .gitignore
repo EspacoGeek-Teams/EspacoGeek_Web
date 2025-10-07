@@ -45,3 +45,4 @@ yarn-error.log*
 
 build.zip
 node_modules
+package-lock.json
