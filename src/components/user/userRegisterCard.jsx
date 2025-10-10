@@ -1,0 +1,103 @@
+import React, { useState, useContext, useEffect } from "react";
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import PropTypes from "prop-types";
+import { useMutation } from "@apollo/client";
+import CREATE_USER_MUTATION from "../apollo/schemas/mutations/createUser";
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
+import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
+import { ErrorContext } from "../../contexts/ErrorContext";
+
+export function UserRegisterCard({ visible }) {
+    const [createUser, { data, loading, error }] = useMutation(CREATE_USER_MUTATION);
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const { setGlobalLoading } = useContext(GlobalLoadingContext);
+    const [password, setPassword] = useState("");
+    const { setErrorMessage } = useContext(ErrorContext);
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    useEffect(() => {
+        setGlobalLoading(loading);
+    }, [loading]);
+
+    const handleCreateUser = (username, email, password) => {
+        createUser({
+            variables: {
+                username: username,
+                email: email,
+                password: password,
+            },
+        });
+    };
+
+    useEffect(() => {
+        if (error) {
+            setErrorMessage(error.graphQLErrors?.[0]?.message);
+        }
+    }, [error]);
+
+    return (
+        <div className="card flex justify-content-center">
+            <Dialog
+                visible={visible}
+                modal
+                onHide={() => {if (!visible) return; visible = false;}}
+                content={({ hide }) => (
+                    <div className="flex flex-col p-10 gap-6" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
+                        <h2 className="text-2xl font-bold text-white text-center">Register</h2>
+
+                        <IconField iconPosition="left">
+                            <InputText
+                                placeholder="Username"
+                                value={username}
+                                autoFocus
+                                className="px-12 p-4 text-xl"
+                                onInput={(e) => { setUsername(e.target.value); }} />
+                            <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-search"} />
+                        </IconField>
+
+                        <IconField iconPosition="left">
+                            <InputText
+                                placeholder="Email"
+                                value={email}
+                                className="px-12 p-4 text-xl"
+                                onInput={(e) => { setEmail(e.target.value); }} />
+                            <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-envelope"} />
+                        </IconField>
+
+                        <IconField iconPosition="left">
+                            <InputText
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                className="px-12 p-4 text-xl"
+                                onInput={(e) => { setPassword(e.target.value); }} />
+                            <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
+                        </IconField>
+
+                        <IconField iconPosition="left">
+                            <InputText
+                                type="password"
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                className="px-12 p-4 text-xl"
+                                onInput={(e) => { setConfirmPassword(e.target.value); }} />
+                            <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
+                        </IconField>
+                        
+                        <Button label="Register" rounded />
+
+                        <Button label="Cancel" onClick={hide} outlined />
+                    </div>
+                )}
+            ></Dialog>
+        </div>
+    )
+}
+
+UserRegisterCard.propTypes = {
+    visible: PropTypes.bool.isRequired
+}

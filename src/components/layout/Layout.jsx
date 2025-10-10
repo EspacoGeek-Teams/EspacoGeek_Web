@@ -8,6 +8,7 @@ import { SpeedDial } from "primereact/speeddial";
 import { ScrollTop } from 'primereact/scrolltop';
 import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
+import { UserOptions } from "../user/userOptions";
 
 export function TopBar() {
     const navigate = useNavigate();
@@ -50,6 +51,12 @@ export function TopBar() {
         </div>
     );
 
+    const finalContent = (
+        <div className="flex flex-wrap align-items-center">
+            <UserOptions />
+        </div>
+    );
+
     const items = [
         {
             label: "Home",
@@ -78,6 +85,7 @@ export function TopBar() {
                 <Toolbar
                     start={startContent}
                     center={centerContent}
+                    end={finalContent}
                     className="z-40 bg-slate-500 bg-opacity-10 backdrop-blur-sm rounded-full fixed top-2 left-2 right-2"
                 />
             </div>
