@@ -9,6 +9,8 @@ import { ScrollTop } from 'primereact/scrolltop';
 import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
+import logo1 from '../../assets/logos/logo1.png';
+import { Image as PrimeImage } from 'primereact/image';
 
 export function TopBar() {
     const navigate = useNavigate();
@@ -23,8 +25,8 @@ export function TopBar() {
     const { globalLoading } = useContext(GlobalLoadingContext);
 
     const startContent = (
-        <div className="flex flex-wrap align-items-center">
-            <h5 className="select-none">EG</h5>
+        <div className="flex flex-wrap align-items-center pl-5">
+            <PrimeImage src={logo1} alt="Logo" className="w-14 h-14 pt-3" />
         </div>
     );
 
@@ -52,7 +54,7 @@ export function TopBar() {
     );
 
     const finalContent = (
-        <div className="flex flex-wrap align-items-center">
+        <div className="flex flex-wrap align-items-center pr-5">
             <UserOptions />
         </div>
     );
@@ -86,7 +88,7 @@ export function TopBar() {
                     start={startContent}
                     center={centerContent}
                     end={finalContent}
-                    className="z-40 bg-slate-500 bg-opacity-10 backdrop-blur-sm rounded-full fixed top-2 left-2 right-2"
+                    className="z-40 bg-slate-500 bg-opacity-10 backdrop-blur-sm rounded-full fixed top-2 left-2 right-2 m-0 p-0"
                 />
             </div>
 

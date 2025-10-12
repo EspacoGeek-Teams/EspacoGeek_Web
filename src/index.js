@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "./modern-normalize.css";
 import "./index.css";
 import { ApolloProvider } from "@apollo/client";
 import ClientAPI from "./components/apollo/Client";

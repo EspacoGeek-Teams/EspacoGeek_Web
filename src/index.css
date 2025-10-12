@@ -1,11 +1,7 @@
-@layer tailwind-base, primereact, tailwind-utilities;
+@layer primereact, tailwind-utilities;
 
 @import 'primereact/resources/themes/lara-dark-blue/theme.css';
 @import 'primeicons/primeicons.css';
-
-@layer tailwind-base {
-    @tailwind base;
-}
 
 @layer tailwind-utilities {
     @tailwind components;
@@ -15,3 +11,8 @@
 html {
     background-color: #101316;
 }
+
+html {
+    overflow-x: hidden;
+}
+
