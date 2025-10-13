@@ -10,7 +10,7 @@ import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
 import logo1 from '../../assets/logos/logo1.png';
-import { Image as PrimeImage } from 'primereact/image';
+import { Image } from 'primereact/image';
 
 export function TopBar() {
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ export function TopBar() {
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
-            <PrimeImage src={logo1} alt="Logo" className="w-14 h-14 pt-3" />
+            <Image src={logo1} alt="Logo" className="w-14 h-14 pt-3" />
         </div>
     );
 
