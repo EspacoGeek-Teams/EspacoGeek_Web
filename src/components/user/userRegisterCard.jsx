@@ -10,7 +10,7 @@ import { InputIcon } from 'primereact/inputicon';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
 
-export function UserRegisterCard({ visible }) {
+export function UserRegisterCard({ visible, onHide }) {
     const [createUser, { data, loading, error }] = useMutation(CREATE_USER_MUTATION);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -44,8 +44,8 @@ export function UserRegisterCard({ visible }) {
             <Dialog
                 visible={visible}
                 modal
-                onHide={() => {if (!visible) return; visible = false;}}
-                content={({ hide }) => (
+                onHide={() => onHide?.()}
+                content={() => (
                     <div className="flex flex-col p-10 gap-6" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
                         <h2 className="text-2xl font-bold text-white text-center">Register</h2>
 
@@ -90,7 +90,7 @@ export function UserRegisterCard({ visible }) {
                         
                         <Button label="Register" rounded />
 
-                        <Button label="Cancel" onClick={hide} outlined />
+                        <Button label="Cancel" onClick={() => onHide?.()} outlined />
                     </div>
                 )}
             ></Dialog>
@@ -100,4 +100,5 @@ export function UserRegisterCard({ visible }) {
 
 UserRegisterCard.propTypes = {
     visible: PropTypes.bool.isRequired
+    , onHide: PropTypes.func
 }

@@ -7,7 +7,7 @@ export function UserOptions() {
 
     return (
         <>
-            <UserRegisterCard visible={visible} />
+            <UserRegisterCard visible={visible} onHide={() => setVisible(false)} />
             <div className="flex flex-wrap align-items-center">
                 <Avatar icon="pi pi-user" className="mr-2" shape="circle" onClick={() => setVisible(true)} />
             </div>
