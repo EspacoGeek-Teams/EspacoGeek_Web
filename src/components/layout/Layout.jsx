@@ -31,23 +31,23 @@ export function TopBar() {
     );
 
     const centerContent = (
-        <div className="flex flex-wrap align-items-center gap-3">
+        <div className="flex flex-wrap align-items-center">
             <Button
                 onClick={handleNavToHome}
-                className="text-1xl p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200 p-ripple"
+                link
                 label="Home"
+                className="text-white"
                 type="button"
-                icon="pi pi-home"
-            >
+                icon="pi pi-home">
                 <Ripple />
             </Button>
             <Button
-                className="text-1xl p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200 p-ripple"
+                link
+                className="text-white"
                 label="Search"
                 icon="pi pi-search"
                 type="button"
-                onClick={handleSearchShow}
-            >
+                onClick={handleSearchShow}>
                 <Ripple />
             </Button>
         </div>

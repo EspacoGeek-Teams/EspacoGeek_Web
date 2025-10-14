@@ -9,35 +9,49 @@ import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
+import { SuccessContext } from "../../contexts/SuccessContext";
 
 export function UserRegisterCard({ visible, onHide }) {
-    const [createUser, { data, loading, error }] = useMutation(CREATE_USER_MUTATION);
+    const [createUser, { data, loading, error }] = useMutation(CREATE_USER_MUTATION, {
+        errorPolicy: 'all',
+    });
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
     const [password, setPassword] = useState("");
     const { setErrorMessage } = useContext(ErrorContext);
+    const { setSuccessMessage } = useContext(SuccessContext);
     const [confirmPassword, setConfirmPassword] = useState("");
 
     useEffect(() => {
         setGlobalLoading(loading);
-    }, [loading]);
+    }, [loading, setGlobalLoading]);
 
-    const handleCreateUser = (username, email, password) => {
-        createUser({
-            variables: {
-                username: username,
-                email: email,
-                password: password,
-            },
-        });
+    const handleCreateUser = async (username, email, password) => {
+        try {
+            await createUser({
+                variables: {
+                    username,
+                    email,
+                    password,
+                },
+            });
+        } catch (err) {
+            setErrorMessage(err?.graphQLErrors?.[0]?.message || err?.message || "An unexpected error occurred");
+        }
     };
 
     useEffect(() => {
         if (error) {
             setErrorMessage(error.graphQLErrors?.[0]?.message);
         }
-    }, [error]);
+    }, [error, setErrorMessage]);
+
+    useEffect(() => {
+        if (data) {
+            setSuccessMessage("User registered successfully!");
+        }
+    }, [data, setSuccessMessage]);
 
     return (
         <div className="card flex justify-content-center">
@@ -46,7 +60,7 @@ export function UserRegisterCard({ visible, onHide }) {
                 modal
                 onHide={() => onHide?.()}
                 content={() => (
-                    <div className="flex flex-col p-10 gap-6" style={{ borderRadius: '12px', backgroundImage: 'radial-gradient(circle at left top, var(--primary-400), var(--primary-700))' }}>
+                    <div className="flex flex-col p-10 gap-6 rounded-xl" style={{ backgroundImage: 'radial-gradient(circle at left top, #052f4a, #0f172b)' }}>
                         <h2 className="text-2xl font-bold text-white text-center">Register</h2>
 
                         <IconField iconPosition="left">
@@ -87,8 +101,8 @@ export function UserRegisterCard({ visible, onHide }) {
                                 onInput={(e) => { setConfirmPassword(e.target.value); }} />
                             <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
                         </IconField>
-                        
-                        <Button label="Register" rounded />
+
+                        <Button label="Register" rounded onClick={() => handleCreateUser(username, email, password)} />
 
                         <Button label="Cancel" onClick={() => onHide?.()} outlined />
                     </div>
@@ -99,6 +113,6 @@ export function UserRegisterCard({ visible, onHide }) {
 }
 
 UserRegisterCard.propTypes = {
-    visible: PropTypes.bool.isRequired
-    , onHide: PropTypes.func
+    visible: PropTypes.bool.isRequired,
+    onHide: PropTypes.func
 }
