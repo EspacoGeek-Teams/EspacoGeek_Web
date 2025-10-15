@@ -1,0 +1,118 @@
+# Automated Release Workflow for React (build + semantic tag + release)
+# This workflow runs only when a Pull Request to the master branch is closed as "merged"
+# or when there is a push to master containing a merge commit.
+# It builds the project, zips the build folder, calculates the next semantic version (major/minor/patch)
+# based on PR labels, and publishes a GitHub release with build.zip as an asset.
+
+name: Release (Build + Tag + Upload)
+
+on:
+  pull_request:
+    types: [closed]          # Trigger when PR is closed
+    branches: [master]       # Only PRs targeting master branch
+  push:
+    branches: [master]       # Direct push/merge to master branch
+
+jobs:
+  build_and_release:
+    name: Build and Release
+    # Runs when:
+    # - Event is pull_request and PR was merged; OR
+    # - Event is push and the commit appears to be a merge (message contains 'Merge')
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'Merge'))
+    runs-on: ubuntu-latest
+
+    # Required to create tags and releases
+    permissions:
+      contents: write
+
+    steps:
+      # 1) Checkout master branch with full history and tags
+      - name: Checkout repository (master)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0               # required to sort/read tags
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || 'master' }}
+
+      # 2) Setup Node.js with npm cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18             # compatible with react-scripts 5
+          cache: npm
+
+      # 3) Install dependencies (tries npm ci; if lock does not exist, falls back to npm install)
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      # 4) Production build of React
+      - name: Production build
+        run: npm run build
+
+      # 5) Zip the build folder into build.zip
+      - name: Zip build
+        run: zip -r build.zip build
+
+      # 6) Determine bump type (major/minor/patch) from PR labels
+      #    Accepted labels: release:major, release:minor, release:patch
+      #    If no label is found, defaults to patch.
+      - name: Set semantic bump from PR labels
+        id: bump
+        shell: bash
+        run: |
+          labels='${{ toJson(github.event.pull_request.labels) }}'
+          if echo "$labels" | grep -qi '"name":"release:major"'; then
+            echo "value=major" >> "$GITHUB_OUTPUT"
+          elif echo "$labels" | grep -qi '"name":"release:minor"'; then
+            echo "value=minor" >> "$GITHUB_OUTPUT"
+          elif echo "$labels" | grep -qi '"name":"release:patch"'; then
+            echo "value=patch" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=patch" >> "$GITHUB_OUTPUT"   # default
+          fi
+
+      # 7) Calculate next version from package.json
+      - name: Calculate next version from package.json
+        id: version
+        shell: bash
+        run: |
+          # Read current version from package.json (e.g.: 1.2.3)
+          current=$(node -p "require('./package.json').version || '0.0.0'")
+          echo "Current version in package.json: $current"
+
+          # If there is a suffix (e.g.: 1.2.3-beta), keep only numbers for calculation
+          ver=${current%%-*}
+          IFS='.' read -r major minor patch <<< "$ver"
+          major=${major:-0}
+          minor=${minor:-0}
+          # Remove any non-numeric suffix from patch
+          patch=${patch%%[^0-9]*}
+          patch=${patch:-0}
+
+          bump='${{ steps.bump.outputs.value }}'
+          case "$bump" in
+            major)
+              major=$((major + 1)); minor=0; patch=0 ;;
+            minor)
+              minor=$((minor + 1)); patch=0 ;;
+            *)
+              patch=$((patch + 1)) ;;
+          esac
+
+          new_tag="v${major}.${minor}.${patch}"
+          echo "New tag: $new_tag"
+          echo "tag=$new_tag" >> "$GITHUB_OUTPUT"
+          echo "version=${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+
+      # 8) Create GitHub release with new tag and upload build.zip as asset
+      - name: Create Release and upload build.zip
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}   # e.g.: v1.2.3
+          name: ${{ steps.version.outputs.tag }}       # Release name = version number
+          files: build.zip                             # Release asset
+          generate_release_notes: true                 # Best practice: auto release notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
