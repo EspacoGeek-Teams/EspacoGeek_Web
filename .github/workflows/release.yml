@@ -9,9 +9,9 @@ name: Release (Build + Tag + Upload)
 on:
   pull_request:
     types: [closed]          # Trigger when PR is closed
-    branches: [master]       # Only PRs targeting master branch
+    branches: [main]         # Only PRs targeting main branch
   push:
-    branches: [master]       # Direct push/merge to master branch
+    branches: [main]         # Direct push/merge to main branch
 
 jobs:
   build_and_release:
@@ -29,12 +29,12 @@ jobs:
       contents: write
 
     steps:
-      # 1) Checkout master branch with full history and tags
-      - name: Checkout repository (master)
+      # 1) Checkout main branch with full history and tags
+      - name: Checkout repository (main)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0               # required to sort/read tags
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || 'master' }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || 'main' }}
 
       # 2) Setup Node.js with npm cache
       - name: Setup Node.js
