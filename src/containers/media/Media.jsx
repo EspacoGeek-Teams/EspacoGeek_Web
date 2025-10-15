@@ -20,15 +20,12 @@ export default function Media() {
 
     useEffect(() => {
         setGlobalLoading(loading);
-    }, [loading]);
+    }, [loading, setGlobalLoading]);
 
-    async function setTitle() {
-        document.title = `${data?.media?.name ?? 'Media'} - EspaçoGeek`;
-    }
-
+    // Atualiza o título da página quando o nome da mídia mudar
     useEffect(() => {
-        setTitle();
-    }, [data?.media.name]);
+        document.title = `${data?.media?.name ?? 'Media'} - EspaçoGeek`;
+    }, [data?.media?.name]);
 
     function convertDateFormat(dateString) {
         if (!dateString) return '';
@@ -41,7 +38,7 @@ export default function Media() {
         return `${day}/${month}/${year}`;
     }
 
-    const seasonMarker = (item) => {
+    const seasonMarker = () => {
         return (
             <span className="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1">
                 <i className="pi pi-circle"></i>
