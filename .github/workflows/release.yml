@@ -19,9 +19,9 @@ jobs:
     # Runs when:
     # - Event is pull_request and PR was merged; OR
     # - Event is push and the commit appears to be a merge (message contains 'Merge')
-    if: |
+    if: >
       (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
-      (github.event_name == 'push' && contains(github.event.head_commit.message, 'Merge'))
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
 
     # Required to create tags and releases
