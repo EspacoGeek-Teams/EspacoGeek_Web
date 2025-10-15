@@ -12,15 +12,24 @@ import { ErrorContext } from "../../contexts/ErrorContext";
 import { SuccessContext } from "../../contexts/SuccessContext";
 
 export function UserRegisterCard({ visible, onHide }) {
-    const [createUser, { data, loading, error }] = useMutation(CREATE_USER_MUTATION, {
+    // Make contexts available for useMutation callbacks
+    const { setGlobalLoading } = useContext(GlobalLoadingContext);
+    const { showError } = useContext(ErrorContext);
+    const { showSuccess } = useContext(SuccessContext);
+
+    const [createUser, { loading }] = useMutation(CREATE_USER_MUTATION, {
         errorPolicy: 'all',
+        onCompleted: () => {
+            showSuccess("User registered successfully!");
+        },
+        onError: (err) => {
+            showError(err?.graphQLErrors?.[0]?.message || err?.message || 'Erro inesperado');
+        }
     });
+
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const { setGlobalLoading } = useContext(GlobalLoadingContext);
     const [password, setPassword] = useState("");
-    const { setErrorMessage } = useContext(ErrorContext);
-    const { setSuccessMessage } = useContext(SuccessContext);
     const [confirmPassword, setConfirmPassword] = useState("");
 
     useEffect(() => {
@@ -28,30 +37,14 @@ export function UserRegisterCard({ visible, onHide }) {
     }, [loading, setGlobalLoading]);
 
     const handleCreateUser = async (username, email, password) => {
-        try {
-            await createUser({
-                variables: {
-                    username,
-                    email,
-                    password,
-                },
-            });
-        } catch (err) {
-            setErrorMessage(err?.graphQLErrors?.[0]?.message || err?.message || "An unexpected error occurred");
-        }
+        await createUser({
+            variables: {
+                username,
+                email,
+                password,
+            },
+        });
     };
-
-    useEffect(() => {
-        if (error) {
-            setErrorMessage(error.graphQLErrors?.[0]?.message);
-        }
-    }, [error, setErrorMessage]);
-
-    useEffect(() => {
-        if (data) {
-            setSuccessMessage("User registered successfully!");
-        }
-    }, [data, setSuccessMessage]);
 
     return (
         <div className="card flex justify-content-center">
