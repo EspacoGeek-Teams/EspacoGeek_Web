@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Avatar } from 'primereact/avatar';
 import { Button } from "primereact/button";
 import { UserRegisterCard } from "./userRegisterCard";
 import { Ripple } from "primereact/ripple";
+import LoginButton from "./LoginButton";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function UserOptions() {
     const [visibleRegisterCard, setVisibleRegisterCard] = useState(false);
+    const { accessToken } = useContext(AuthContext);
 
     return (
         <>
             <UserRegisterCard visible={visibleRegisterCard} onHide={() => setVisibleRegisterCard(false)} />
-            
             {
-                // TODO condition for logged in user
-                false ? (
+                accessToken ? (
                     <div className="flex flex-wrap align-items-center mr-3">
                         <Avatar icon="pi pi-user" className="mr-2" shape="circle" />
                     </div>
-                )
-                :
-                (
+                ) : (
                     <div>
                         <Button
                             link
@@ -30,18 +29,10 @@ export function UserOptions() {
                             onClick={() => setVisibleRegisterCard(true)}>
                             <Ripple />
                         </Button>
-                        <Button
-                            link
-                            icon="pi pi-sign-in"
-                            label="Login"
-                            type="button"
-                            className="text-white">
-                            <Ripple />
-                        </Button>
-                    </div>   
+                        <LoginButton />
+                    </div>
                 )
             }
-        
         </>
     );
 }

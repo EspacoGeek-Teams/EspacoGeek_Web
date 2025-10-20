@@ -11,6 +11,7 @@ import { PrimeReactProvider } from "primereact/api";
 import { ErrorNotification, SuccessNotification } from "./components/toast/Notification";
 import { SuccessProvider } from "./contexts/SuccessContext";
 import { GlobalLoadingProvider } from "./contexts/GlobalLoadingContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const primeReactConfig = {
@@ -23,13 +24,15 @@ root.render(
             <SuccessProvider>
                 <GlobalLoadingProvider>
                     <ApolloProvider client={ClientAPI}>
-                        <PrimeReactProvider value={primeReactConfig}>
-                            <main id="rootElement" data-bs-theme="dark" className="h-screen w-screen">
-                                <RouterProvider router={routes} />
-                                <ErrorNotification />
-                                <SuccessNotification />
-                            </main>
-                        </PrimeReactProvider>
+                        <AuthProvider>
+                            <PrimeReactProvider value={primeReactConfig}>
+                                <main id="rootElement" data-bs-theme="dark" className="h-screen w-screen">
+                                    <RouterProvider router={routes} />
+                                    <ErrorNotification />
+                                    <SuccessNotification />
+                                </main>
+                            </PrimeReactProvider>
+                        </AuthProvider>
                     </ApolloProvider>
                 </GlobalLoadingProvider>
             </SuccessProvider>

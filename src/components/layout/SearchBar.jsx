@@ -30,7 +30,7 @@ function SearchBar({ handleClose }) {
 
     useEffect(() => {
         setGlobalLoading(loading);
-    }, [loading]);
+    }, [loading, setGlobalLoading]);
 
     const queries = [
         { name: 'TVSerie', code: 'tvserie' },
@@ -51,7 +51,7 @@ function SearchBar({ handleClose }) {
         if (error) {
             setErrorMessage(error.graphQLErrors?.[0]?.message);
         }
-    }, [error]);
+    }, [error, setErrorMessage]);
 
     const itemTemplate = (media) => {
         return (
