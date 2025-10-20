@@ -15,7 +15,7 @@ function Home() {
     useEffect(() => {
         setGlobalLoading(loading);
         document.title = "Home - EspaçoGeek";
-    }, [loading]);
+    }, [loading, setGlobalLoading]);
 
     return (
         <>

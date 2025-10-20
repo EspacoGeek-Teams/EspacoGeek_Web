@@ -20,15 +20,11 @@ export default function Media() {
 
     useEffect(() => {
         setGlobalLoading(loading);
-    }, [loading]);
-
-    async function setTitle() {
-        document.title = `${data?.media?.name ?? 'Media'} - EspaçoGeek`;
-    }
+    }, [loading, setGlobalLoading]);
 
     useEffect(() => {
-        setTitle();
-    }, [data?.media.name]);
+        document.title = `${data?.media?.name ?? 'Media'} - EspaçoGeek`;
+    }, [data?.media?.name]);
 
     function convertDateFormat(dateString) {
         if (!dateString) return '';

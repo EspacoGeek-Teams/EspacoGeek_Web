@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const query = gql`
-    query dailyQuoteArtwork {
-        quote{
+    query DailyQuoteArtwork {
+        dailyQuoteArtwork {
             quote
             author
             urlArtwork
