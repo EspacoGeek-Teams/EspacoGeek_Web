@@ -33,9 +33,9 @@ function Home() {
                 </div>
             </div>
             <div className="absolute top-0 left-0 w-screen h-screen">
-                <Image src={data?.quote?.urlArtwork} className="-z-10 image-gradient fill-viewport" />
+                <Image src={data?.dailyQuoteArtwork?.urlArtwork} className="-z-10 image-gradient fill-viewport" />
                 <div className="absolute bottom-0 left-0 m-8 p-8 w-80 md:w-6/12">
-                    <p className="text-left italic">{data?.quote?.quote} - {data?.quote?.author}</p>
+                    <p className="text-left italic">{data?.dailyQuoteArtwork?.quote}{data?.dailyQuoteArtwork?.quote ? " - " : ""}{data?.dailyQuoteArtwork?.author}</p>
                 </div>
             </div>
             <div>
