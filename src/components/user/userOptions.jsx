@@ -8,13 +8,13 @@ import { AuthContext } from "../../contexts/AuthContext";
 
 export function UserOptions() {
     const [visibleRegisterCard, setVisibleRegisterCard] = useState(false);
-    const { accessToken } = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
 
     return (
         <>
             <UserRegisterCard visible={visibleRegisterCard} onHide={() => setVisibleRegisterCard(false)} />
             {
-                accessToken ? (
+                isAuthenticated ? (
                     <div className="flex flex-wrap align-items-center mr-3">
                         <Avatar icon="pi pi-user" className="mr-2" shape="circle" />
                     </div>

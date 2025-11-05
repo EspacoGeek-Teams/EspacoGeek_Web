@@ -4,13 +4,12 @@ import PropTypes from "prop-types";
 import Home from "./../containers/home/Home";
 import Media from "./../containers/media/Media";
 import { AuthContext } from "../contexts/AuthContext";
-import { ErrorContext } from "../contexts/ErrorContext";
 
 export function RequireAuth({ children }) {
     return (
         <AuthContext.Consumer>
-            {({ accessToken, openLogin }) => (
-                accessToken ? children : <RedirectToHome openLogin={openLogin} />
+            {({ isAuthenticated, initializing }) => (
+                initializing ? null : (isAuthenticated ? children : <RedirectToHome />)
             )}
         </AuthContext.Consumer>
     );
@@ -18,19 +17,9 @@ export function RequireAuth({ children }) {
 
 RequireAuth.propTypes = { children: PropTypes.node };
 
-export function RedirectToHome({ openLogin }) {
-    return (
-        <ErrorContext.Consumer>
-            {({ showError }) => {
-                showError("Faça login para continuar.");
-                openLogin();
-                return <Navigate to="/" replace />;
-            }}
-        </ErrorContext.Consumer>
-    );
+export function RedirectToHome() {
+    return <Navigate to="/" replace />;
 }
-
-RedirectToHome.propTypes = { openLogin: PropTypes.func };
 
 const router = createBrowserRouter(
     createRoutesFromElements(

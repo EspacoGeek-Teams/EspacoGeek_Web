@@ -10,6 +10,7 @@ import { InputIcon } from 'primereact/inputicon';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
 import { SuccessContext } from "../../contexts/SuccessContext";
+import { Password } from "primereact/password";
 
 export function UserRegisterCard({ visible, onHide }) {
     // Make contexts available for useMutation callbacks
@@ -76,21 +77,23 @@ export function UserRegisterCard({ visible, onHide }) {
                         </IconField>
 
                         <IconField iconPosition="left">
-                            <InputText
-                                type="password"
+                            <Password
                                 placeholder="Password"
                                 value={password}
-                                className="px-12 p-4 text-xl"
+                                toggleMask
+                                feedback={false} 
+                                inputClassName="px-12 p-4 text-xl"
                                 onInput={(e) => { setPassword(e.target.value); }} />
                             <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
                         </IconField>
 
                         <IconField iconPosition="left">
-                            <InputText
-                                type="password"
+                            <Password
                                 placeholder="Confirm Password"
                                 value={confirmPassword}
-                                className="px-12 p-4 text-xl"
+                                toggleMask
+                                feedback={false} 
+                                inputClassName="px-12 p-4 text-xl"
                                 onInput={(e) => { setConfirmPassword(e.target.value); }} />
                             <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
                         </IconField>
@@ -100,7 +103,7 @@ export function UserRegisterCard({ visible, onHide }) {
                         <Button label="Cancel" onClick={() => onHide?.()} outlined />
                     </div>
                 )}
-            ></Dialog>
+            />
         </div>
     )
 }

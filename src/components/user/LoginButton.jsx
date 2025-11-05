@@ -3,6 +3,8 @@ import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
 import { Password } from "primereact/password";
 import { AuthContext } from "../../contexts/AuthContext";
 
@@ -10,14 +12,14 @@ export default function LoginButton() {
   const { login, openLogin, closeLogin, loginVisible } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [working, setWorking] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    setWorking(true);
+    setLoading(true);
     try {
       await login(email, password);
     } finally {
-      setWorking(false);
+      setLoading(false);
     }
   };
 
@@ -26,16 +28,41 @@ export default function LoginButton() {
       <Button link icon="pi pi-sign-in" label="Login" type="button" className="text-white" onClick={openLogin}>
         <Ripple />
       </Button>
-      <Dialog header="Login" visible={loginVisible} onHide={closeLogin} className="w-11 md:w-6 lg:w-4">
-        <div className="flex flex-column gap-3">
-          <span className="p-input-icon-left">
-            <i className="pi pi-envelope" />
-            <InputText value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="w-full" />
-          </span>
-          <Password value={password} onChange={(e) => setPassword(e.target.value)} toggleMask feedback={false} placeholder="Senha" className="w-full" />
-          <Button label={working ? "Entrando..." : "Entrar"} icon="pi pi-sign-in" onClick={handleLogin} loading={working} />
-        </div>
-      </Dialog>
+
+      <Dialog
+        visible={loginVisible}
+        modal
+        onHide={closeLogin}
+        content={() => (
+          <div className="flex flex-col p-10 gap-6 rounded-xl" style={{ backgroundImage: 'radial-gradient(circle at left top, #052f4a, #0f172b)' }}>
+            <h2 className="text-2xl font-bold text-white text-center">Login</h2>
+
+            <IconField iconPosition="left">
+              <InputText
+                placeholder="Email"
+                value={email}
+                className="px-12 p-4 text-xl"
+                onInput={(e) => { setEmail(e.target.value); }} />
+              <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-envelope"} />
+            </IconField>
+
+            <IconField iconPosition="left">
+              <Password
+                placeholder="Password"
+                value={password}
+                toggleMask
+                feedback={false} 
+                inputClassName="px-12 p-4 text-xl"
+                onInput={(e) => { setPassword(e.target.value); }} />
+              <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
+            </IconField>
+
+            <Button label="Login" rounded onClick={() => handleLogin()} />
+
+            <Button label="Cancel" onClick={closeLogin} outlined />
+          </div>
+        )}
+      />
     </>
   );
 }
