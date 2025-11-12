@@ -1,36 +1,29 @@
-import React, { useState, useContext } from "react";
-import { Avatar } from 'primereact/avatar';
-import { Button } from "primereact/button";
-import { UserRegisterCard } from "./userRegisterCard";
-import { Ripple } from "primereact/ripple";
-import LoginButton from "./LoginButton";
+import React, { useContext } from "react";
+import LoginButton from "./userLogin";
+import UserRegister from "./userRegister";
+import UserLogged from "./userLogged";
 import { AuthContext } from "../../contexts/AuthContext";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export function UserOptions() {
-    const [visibleRegisterCard, setVisibleRegisterCard] = useState(false);
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, initializing } = useContext(AuthContext);
 
     return (
         <>
-            <UserRegisterCard visible={visibleRegisterCard} onHide={() => setVisibleRegisterCard(false)} />
             {
-                isAuthenticated ? (
-                    <div className="flex flex-wrap align-items-center mr-3">
-                        <Avatar icon="pi pi-user" className="mr-2" shape="circle" />
-                    </div>
+                isAuthenticated && !initializing ? (
+                    <UserLogged />
                 ) : (
-                    <div>
-                        <Button
-                            link
-                            icon="pi pi-user-plus"
-                            label="Register"
-                            type="button"
-                            className="text-white"
-                            onClick={() => setVisibleRegisterCard(true)}>
-                            <Ripple />
-                        </Button>
-                        <LoginButton />
-                    </div>
+                    !initializing ? (
+                        <div>
+                            <UserRegister />
+                            <LoginButton />
+                        </div>
+                        ) : (
+                        <div className="flex flex-col gap-2 mr-3">
+                            <ProgressSpinner className="h-7 w-7" />
+                        </div>
+                    )
                 )
             }
         </>
