@@ -1,8 +1,8 @@
 import React from "react";
 import { createBrowserRouter, createRoutesFromElements, Route, Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import Home from "./../containers/home/Home";
-import Media from "./../containers/media/Media";
+import Home from "../containers/home/Home";
+import Media from "../containers/media/Media";
 import { AuthContext } from "../contexts/AuthContext";
 
 export function RequireAuth({ children }) {
