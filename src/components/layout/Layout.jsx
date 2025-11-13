@@ -63,7 +63,7 @@ export function TopBar() {
 
     const finalContent = (
         <div className="flex flex-wrap align-items-center pr-5 gap-2">
-            <LanguageSwitcher />
+            {/* <LanguageSwitcher /> */}
             <UserOptions />
         </div>
     );
