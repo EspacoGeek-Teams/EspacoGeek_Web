@@ -13,12 +13,14 @@ import { ListBox } from 'primereact/listbox';
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from 'primereact/dropdown';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
+import { useTranslation } from 'react-i18next';
 
 // eslint-disable-next-line react/prop-types
 function SearchBar({ handleClose }) {
+    const { t } = useTranslation();
     const [value, setValue] = useState('');
     const { setErrorMessage } = useContext(ErrorContext);
-    const [selectedQuery, setSelectedQuery] = useState({ name: 'TVSerie', code: 'tvserie' });
+    const [selectedQuery, setSelectedQuery] = useState({ name: t('search.tvserie'), code: 'tvserie' });
     const navigate = useNavigate();
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
     const { loading, error, data } = useQuery(
@@ -33,9 +35,9 @@ function SearchBar({ handleClose }) {
     }, [loading, setGlobalLoading]);
 
     const queries = [
-        { name: 'TVSerie', code: 'tvserie' },
-        { name: 'Game', code: 'game' },
-        { name: 'Visual Novel', code: 'vn' },
+        { name: t('search.tvserie'), code: 'tvserie' },
+        { name: t('search.game'), code: 'game' },
+        { name: t('search.visualNovel'), code: 'vn' },
     ];
 
     const handleMediaClick = (id, name) => {
@@ -78,7 +80,7 @@ function SearchBar({ handleClose }) {
                         <div className="flex items-center">
                             <IconField iconPosition="left">
                                 <InputText
-                                    placeholder="Search"
+                                    placeholder={t('search.placeholder')}
                                     value={value}
                                     autoFocus
                                     className="px-8 sm:px-12 p-3 sm:p-4 text-lg sm:text-xl"

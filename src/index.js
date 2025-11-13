@@ -12,6 +12,7 @@ import { ErrorNotification, SuccessNotification } from "./components/toast/Notif
 import { SuccessProvider } from "./contexts/SuccessContext";
 import { GlobalLoadingProvider } from "./contexts/GlobalLoadingContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import "./i18n/config";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const primeReactConfig = {

@@ -13,9 +13,12 @@ import logo1 from '../../assets/logos/logo1.png';
 import { Image } from 'primereact/image';
 import { AuthContext } from "../../contexts/AuthContext";
 import UserPopUpMenu from "../user/userPopUpMenu";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [SearchComponent, setSearchComponent] = useState(false);
 
@@ -40,7 +43,7 @@ export function TopBar() {
             <Button
                 onClick={handleNavToHome}
                 link
-                label="Home"
+                label={t('nav.home')}
                 className="text-white"
                 type="button"
                 icon="pi pi-home">
@@ -49,7 +52,7 @@ export function TopBar() {
             <Button
                 link
                 className="text-white"
-                label="Search"
+                label={t('nav.search')}
                 icon="pi pi-search"
                 type="button"
                 onClick={handleSearchShow}>
@@ -59,21 +62,22 @@ export function TopBar() {
     );
 
     const finalContent = (
-        <div className="flex flex-wrap align-items-center pr-5">
+        <div className="flex flex-wrap align-items-center pr-5 gap-2">
+            <LanguageSwitcher />
             <UserOptions />
         </div>
     );
 
     const items = [
         {
-            label: "Home",
+            label: t('nav.home'),
             icon: "pi pi-home",
             command: () => {
                 handleNavToHome();
             },
         },
         {
-            label: "Search",
+            label: t('nav.search'),
             icon: "pi pi-search",
             command: () => {
                 handleSearchShow();
@@ -81,7 +85,7 @@ export function TopBar() {
         },
         isAuthenticated && !initializing ? (
             {
-                label: "User",
+                label: t('nav.user'),
                 icon: "pi pi-user",
                 command: (e) => {
                     userMenuRef.current && userMenuRef.current.toggle(e);
@@ -89,14 +93,14 @@ export function TopBar() {
             }
         ) : (
             {
-                label: "Register",
+                label: t('nav.register'),
                 icon: "pi pi-user-plus",
                 command: () => {
 
                 },
             },
             {
-                label: "Login",
+                label: t('nav.login'),
                 icon: "pi pi-sign-in",
                 command: () => {
 
@@ -147,6 +151,8 @@ export function TopBar() {
 }
 
 export function Footer() {
+    const { t } = useTranslation();
+    
     return (
         <footer className="bg-white dark:bg-gray-900 bottom-0 right-0 left-0 !z-40 mt-10 relative">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
@@ -158,18 +164,18 @@ export function Footer() {
                     </div>
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                         <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">INFORMATION</h2>
+                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.information')}</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a href="/api" className="hover:underline">API</a>
+                                    <a href="/api" className="hover:underline">{t('footer.api')}</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
+                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.followUs')}</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <a target="_blank" rel="noreferrer" href="https://github.com/EspacoGeek-Teams/espacogeek" className="hover:underline ">Github</a>
+                                    <a target="_blank" rel="noreferrer" href="https://github.com/EspacoGeek-Teams/espacogeek" className="hover:underline ">{t('footer.github')}</a>
                                 </li>
                             </ul>
                         </div>
@@ -177,7 +183,7 @@ export function Footer() {
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
                 <div className="sm:flex sm:items-center sm:justify-between">
-                    <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com/" className="hover:underline">EspaçoGeek</a>. All Rights Reserved for Respective Authors.
+                    <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com/" className="hover:underline">EspaçoGeek</a>. {t('footer.copyright')}
                     </span>
                 </div>
             </div>

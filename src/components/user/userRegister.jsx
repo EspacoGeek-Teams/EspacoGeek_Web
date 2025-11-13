@@ -11,8 +11,10 @@ import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { ErrorContext } from "../../contexts/ErrorContext";
 import { SuccessContext } from "../../contexts/SuccessContext";
 import { Password } from "primereact/password";
+import { useTranslation } from 'react-i18next';
 
 export default function UserRegister() {
+    const { t } = useTranslation();
     // Make contexts available for useMutation callbacks
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
     const { showError } = useContext(ErrorContext);
@@ -22,7 +24,7 @@ export default function UserRegister() {
     const [createUser, { loading }] = useMutation(CREATE_USER_MUTATION, {
         errorPolicy: 'all',
         onCompleted: () => {
-            showSuccess("User registered successfully!");
+            showSuccess(t('auth.register.success'));
         },
         onError: (err) => {
             showError(err?.graphQLErrors?.[0]?.message || err?.message || 'Erro inesperado');
@@ -53,7 +55,7 @@ export default function UserRegister() {
             <Button
                 link
                 icon="pi pi-user-plus"
-                label="Register"
+                label={t('nav.register')}
                 type="button"
                 className="text-white"
                 onClick={() => setVisibleRegisterCard(true)}>
@@ -66,11 +68,11 @@ export default function UserRegister() {
                 onHide={() => setVisibleRegisterCard(false)}
                 content={() => (
                     <div className="flex flex-col p-10 gap-6 rounded-xl" style={{ backgroundImage: 'radial-gradient(circle at left top, #052f4a, #0f172b)' }}>
-                        <h2 className="text-2xl font-bold text-white text-center">Register</h2>
+                        <h2 className="text-2xl font-bold text-white text-center">{t('auth.register.title')}</h2>
 
                         <IconField iconPosition="left">
                             <InputText
-                                placeholder="Username"
+                                placeholder={t('auth.register.username')}
                                 value={username}
                                 autoFocus
                                 className="px-12 p-4 text-xl"
@@ -80,7 +82,7 @@ export default function UserRegister() {
 
                         <IconField iconPosition="left">
                             <InputText
-                                placeholder="Email"
+                                placeholder={t('auth.register.email')}
                                 value={email}
                                 className="px-12 p-4 text-xl"
                                 onInput={(e) => { setEmail(e.target.value); }} />
@@ -89,7 +91,7 @@ export default function UserRegister() {
 
                         <IconField iconPosition="left">
                             <Password
-                                placeholder="Password"
+                                placeholder={t('auth.register.password')}
                                 value={password}
                                 toggleMask
                                 feedback={false} 
@@ -100,7 +102,7 @@ export default function UserRegister() {
 
                         <IconField iconPosition="left">
                             <Password
-                                placeholder="Confirm Password"
+                                placeholder={t('auth.register.confirmPassword')}
                                 value={confirmPassword}
                                 toggleMask
                                 feedback={false} 
@@ -109,9 +111,9 @@ export default function UserRegister() {
                             <InputIcon className={loading ? "pi pi-spin pi-spinner" : "pi pi-lock"} />
                         </IconField>
 
-                        <Button label="Register" rounded onClick={() => handleCreateUser(username, email, password)} />
+                        <Button label={t('auth.register.button')} rounded onClick={() => handleCreateUser(username, email, password)} />
 
-                        <Button label="Cancel" onClick={() => setVisibleRegisterCard(false)} outlined />
+                        <Button label={t('auth.register.cancel')} onClick={() => setVisibleRegisterCard(false)} outlined />
                     </div>
                 )}
             />

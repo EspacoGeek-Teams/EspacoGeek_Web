@@ -7,10 +7,12 @@ import "./star.css";
 import "./imageGradient.css";
 import { useEffect, useContext } from "react";
 import { useQuery } from '@apollo/client';
+import { useTranslation } from 'react-i18next';
 
 function Home() {
     const { loading, data } = useQuery(quote);
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
+    const { t } = useTranslation();
 
     useEffect(() => {
         setGlobalLoading(loading);
@@ -28,8 +30,8 @@ function Home() {
             </div>
             <div className="z-0 w-screen h-screen flex flex-col justify-center items-center">
                 <div className="w-1/2 pb-96">
-                    <h1 className="animate-bounce text-4xl font-bold text-center">Welcome to EspaçoGeek!</h1>
-                    <p className="text-center">Your ultimate hobby tracker for movies, series, anime, and games!</p>
+                    <h1 className="animate-bounce text-4xl font-bold text-center">{t('home.welcome')}</h1>
+                    <p className="text-center">{t('home.subtitle')}</p>
                 </div>
             </div>
             <div className="absolute top-0 left-0 w-screen h-screen">
