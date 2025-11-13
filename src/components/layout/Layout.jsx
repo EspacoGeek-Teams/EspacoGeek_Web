@@ -14,7 +14,9 @@ import { Image } from 'primereact/image';
 import { AuthContext } from "../../contexts/AuthContext";
 import UserPopUpMenu from "../user/userPopUpMenu";
 import { useTranslation } from 'react-i18next';
-import LanguageSwitcher from "../language/LanguageSwitcher";
+import RegisterDialog from '../user/RegisterDialog';
+import LoginDialog from '../user/LoginDialog';
+// import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
     const navigate = useNavigate();
@@ -28,9 +30,11 @@ export function TopBar() {
     const handleNavToHome = () => navigate("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
-    const { isAuthenticated, initializing } = useContext(AuthContext);
+    const { isAuthenticated, initializing, logout } = useContext(AuthContext);
 
     const userMenuRef = useRef(null);
+    const registerDialogRef = useRef(null);
+    const loginDialogRef = useRef(null);
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
@@ -72,41 +76,51 @@ export function TopBar() {
         {
             label: t('nav.home'),
             icon: "pi pi-home",
-            command: () => {
-                handleNavToHome();
-            },
+            command: () => handleNavToHome(),
         },
         {
             label: t('nav.search'),
             icon: "pi pi-search",
-            command: () => {
-                handleSearchShow();
-            },
+            command: () => handleSearchShow(),
         },
-        isAuthenticated && !initializing ? (
+        ...(isAuthenticated && !initializing ? [
             {
-                label: t('nav.user'),
-                icon: "pi pi-user",
-                command: (e) => {
-                    userMenuRef.current && userMenuRef.current.toggle(e);
-                },
+                label: 'Profile',
+                icon: 'pi pi-user',
+            },
+            {
+                label: 'Lists',
+                icon: 'pi pi-list',
+            },
+            {
+                label: 'Notifications',
+                icon: 'pi pi-bell',
+            },
+            {
+                label: 'Settings',
+                icon: 'pi pi-cog',
+            },
+            {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                command: () => { logout(); }
             }
-        ) : (
+        ] : [
             {
                 label: t('nav.register'),
                 icon: "pi pi-user-plus",
                 command: () => {
-
+                    registerDialogRef.current && registerDialogRef.current.open();
                 },
             },
             {
                 label: t('nav.login'),
                 icon: "pi pi-sign-in",
                 command: () => {
-
+                    loginDialogRef.current && loginDialogRef.current.open();
                 },
             }
-        ),
+        ])
     ];
 
     function pageIsLoading() {
@@ -125,7 +139,7 @@ export function TopBar() {
                 />
             </div>
 
-            <div className="card block md:hidden fixed right-0 bottom-0 z-40">
+            <div className="card block md:hidden fixed right-4 bottom-4 z-50">
                 <SpeedDial
                     mask
                     showIcon="pi pi-bars"
