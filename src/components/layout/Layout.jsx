@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import SearchBar from "./SearchBar";
 import { Toolbar } from "primereact/toolbar";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
 import logo1 from '../../assets/logos/logo1.png';
 import { Image } from 'primereact/image';
+import { AuthContext } from "../../contexts/AuthContext";
+import UserPopUpMenu from "../user/userPopUpMenu";
 
 export function TopBar() {
     const navigate = useNavigate();
@@ -23,6 +25,9 @@ export function TopBar() {
     const handleNavToHome = () => navigate("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
+    const { isAuthenticated, initializing } = useContext(AuthContext);
+
+    const userMenuRef = useRef(null);
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
@@ -73,7 +78,31 @@ export function TopBar() {
             command: () => {
                 handleSearchShow();
             },
-        }
+        },
+        isAuthenticated && !initializing ? (
+            {
+                label: "User",
+                icon: "pi pi-user",
+                command: (e) => {
+                    userMenuRef.current && userMenuRef.current.toggle(e);
+                },
+            }
+        ) : (
+            {
+                label: "Register",
+                icon: "pi pi-user-plus",
+                command: () => {
+
+                },
+            },
+            {
+                label: "Login",
+                icon: "pi pi-sign-in",
+                command: () => {
+
+                },
+            }
+        ),
     ];
 
     function pageIsLoading() {
@@ -107,6 +136,8 @@ export function TopBar() {
             </div>
 
             {SearchComponent && <SearchBar handleClose={handleSearchClose} />}
+
+            <UserPopUpMenu ref={userMenuRef} />
 
             <div>
                 <ScrollTop className="left-4 md:left-auto md:right-4" />
