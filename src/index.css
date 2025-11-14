@@ -10,9 +10,13 @@
 
 html {
     background-color: #101316;
-}
-
-html {
     overflow-x: hidden;
 }
 
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #ffffff;
+}
