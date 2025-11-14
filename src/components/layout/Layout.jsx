@@ -16,6 +16,7 @@ import UserPopUpMenu from "../user/userPopUpMenu";
 import { useTranslation } from 'react-i18next';
 import RegisterDialog from '../user/RegisterDialog';
 import LoginDialog from '../user/LoginDialog';
+import { apiUri } from "../apollo/config";
 // import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
@@ -170,18 +171,20 @@ export function Footer() {
     return (
         <footer className="bg-white dark:bg-gray-900 bottom-0 right-0 left-0 !z-40 mt-10 relative">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                <div className="md:flex md:justify-between">
-                    <div className="mb-6 md:mb-0">
+                {/* Alinha verticalmente o conteúdo no md+ */}
+                <div className="md:flex md:items-center md:justify-between">
+                    <div className="mb-6 md:mb-0 flex items-center">
                         <a href="/" className="flex items-center">
                             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">EG</span>
                         </a>
                     </div>
-                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+
+                    <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
                         <div>
                             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.information')}</h2>
                             <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <a href="/api" className="hover:underline">{t('footer.api')}</a>
+                                <li className="mb-4 pr-10">
+                                    <a href={`${apiUri}/GraphiQL`} className="hover:underline">{t('footer.api')}</a>
                                 </li>
                             </ul>
                         </div>
