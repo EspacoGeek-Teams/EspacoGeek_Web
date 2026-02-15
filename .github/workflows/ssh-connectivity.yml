@@ -1,0 +1,37 @@
+name: SSH Connectivity Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  connectivity_test:
+    name: Test SSH Connectivity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check TCP connectivity
+        shell: bash
+        run: |
+          echo "Testing TCP connectivity to ${HOST} on port ${PORT}..."
+          if nc -zv -w 5 "$HOST" "$PORT"; then
+            echo "✅ TCP connectivity OK"
+          else
+            echo "❌ TCP connectivity failed"
+            exit 1
+          fi
+        env:
+          HOST: ${{ secrets.HOSTINGER_HOST }}
+          PORT: ${{ secrets.HOSTINGER_PORT || '22' }}
+
+      - name: Check SSH handshake (no login)
+        shell: bash
+        run: |
+          echo "Testing SSH handshake to ${HOST} on port ${PORT}..."
+          ssh -o StrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 -p "$PORT" "${USER}@${HOST}" true || exit 1
+          echo "✅ SSH handshake OK"
+        env:
+          HOST: ${{ secrets.HOSTINGER_HOST }}
+          PORT: ${{ secrets.HOSTINGER_PORT || '22' }}
+          USER: ${{ secrets.HOSTINGER_USER }}
