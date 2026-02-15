@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "register": "Register",
+    "login": "Login",
+    "user": "User",
+    "logout": "Logout"
+  },
+  "search": {
+    "placeholder": "Search",
+    "tvserie": "TVSerie",
+    "game": "Game",
+    "visualNovel": "Visual Novel"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "button": "Login",
+      "cancel": "Cancel"
+    },
+    "register": {
+      "title": "Register",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "button": "Register",
+      "cancel": "Cancel",
+      "success": "User registered successfully!"
+    }
+  },
+  "home": {
+    "welcome": "Welcome to EspaçoGeek!",
+    "subtitle": "Your ultimate hobby tracker for movies, series, anime, and games!"
+  },
+  "footer": {
+    "information": "INFORMATION",
+    "api": "API",
+    "followUs": "Follow us",
+    "github": "Github",
+    "copyright": "All Rights Reserved for Respective Authors."
+  }
+}

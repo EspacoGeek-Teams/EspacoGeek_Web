@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Início",
+    "search": "Buscar",
+    "register": "Registrar",
+    "login": "Entrar",
+    "user": "Usuário",
+    "logout": "Sair"
+  },
+  "search": {
+    "placeholder": "Buscar",
+    "tvserie": "Série de TV",
+    "game": "Jogo",
+    "visualNovel": "Visual Novel"
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "email": "E-mail",
+      "password": "Senha",
+      "button": "Entrar",
+      "cancel": "Cancelar"
+    },
+    "register": {
+      "title": "Registrar",
+      "username": "Nome de Usuário",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar Senha",
+      "button": "Registrar",
+      "cancel": "Cancelar",
+      "success": "Usuário registrado com sucesso!"
+    }
+  },
+  "home": {
+    "welcome": "Bem-vindo ao EspaçoGeek!",
+    "subtitle": "Seu rastreador definitivo de hobbies para filmes, séries, anime e jogos!"
+  },
+  "footer": {
+    "information": "INFORMAÇÕES",
+    "api": "API",
+    "followUs": "Siga-nos",
+    "github": "Github",
+    "copyright": "Todos os Direitos Reservados aos Respectivos Autores."
+  }
+}

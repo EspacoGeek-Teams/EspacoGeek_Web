@@ -1,47 +1,31 @@
-import React, { useState } from "react";
-import { Avatar } from 'primereact/avatar';
-import { Button } from "primereact/button";
-import { UserRegisterCard } from "./userRegisterCard";
-import { Ripple } from "primereact/ripple";
+import React, { useContext } from "react";
+import LoginButton from "./userLogin";
+import UserRegister from "./userRegister";
+import UserLogged from "./userLogged";
+import { AuthContext } from "../../contexts/AuthContext";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 export function UserOptions() {
-    const [visibleRegisterCard, setVisibleRegisterCard] = useState(false);
+    const { isAuthenticated, initializing } = useContext(AuthContext);
 
     return (
         <>
-            <UserRegisterCard visible={visibleRegisterCard} onHide={() => setVisibleRegisterCard(false)} />
-            
             {
-                // TODO condition for logged in user
-                false ? (
-                    <div className="flex flex-wrap align-items-center mr-3">
-                        <Avatar icon="pi pi-user" className="mr-2" shape="circle" />
-                    </div>
-                )
-                :
-                (
-                    <div>
-                        <Button
-                            link
-                            icon="pi pi-user-plus"
-                            label="Register"
-                            type="button"
-                            className="text-white"
-                            onClick={() => setVisibleRegisterCard(true)}>
-                            <Ripple />
-                        </Button>
-                        <Button
-                            link
-                            icon="pi pi-sign-in"
-                            label="Login"
-                            type="button"
-                            className="text-white">
-                            <Ripple />
-                        </Button>
-                    </div>   
+                isAuthenticated && !initializing ? (
+                    <UserLogged />
+                ) : (
+                    !initializing ? (
+                        <div>
+                            <UserRegister />
+                            <LoginButton />
+                        </div>
+                        ) : (
+                        <div className="flex flex-col gap-2 mr-3">
+                            <ProgressSpinner className="h-7 w-7" />
+                        </div>
+                    )
                 )
             }
-        
         </>
     );
 }
