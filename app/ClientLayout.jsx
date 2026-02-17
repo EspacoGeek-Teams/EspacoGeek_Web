@@ -1,5 +1,7 @@
 'use client';
 
+import React from "react";
+import PropTypes from "prop-types";
 import { ApolloProvider } from "@apollo/client";
 import ClientAPI from "../src/components/apollo/Client";
 import { ErrorProvider } from "../src/contexts/ErrorContext";
@@ -48,3 +50,7 @@ export default function ClientLayout({ children }) {
     </ErrorProvider>
   );
 }
+
+ClientLayout.propTypes = {
+  children: PropTypes.node,
+};

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useContext, useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 import { TopBar, Footer } from "../../../../src/components/layout/Layout";
 import { useQuery } from "@apollo/client";
 import mediaQuery from "../../../../src/components/apollo/schemas/queries/mediaQuery";
@@ -54,6 +55,7 @@ export default function Page({ params }) {
         return `${day}/${month}/${year}`;
     }
 
+    // eslint-disable-next-line no-unused-vars
     const seasonMarker = (item) => {
         return (
             <span className="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1">
@@ -202,3 +204,7 @@ export default function Page({ params }) {
         </>
     );
 }
+
+Page.propTypes = {
+    params: PropTypes.any,
+};

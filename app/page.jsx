@@ -1,5 +1,6 @@
 'use client';
 
+import React from "react";
 import Home from "../src/containers/home/Home";
 
 // Force dynamic rendering

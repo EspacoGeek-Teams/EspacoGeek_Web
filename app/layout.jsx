@@ -1,3 +1,5 @@
+import React from "react";
+import PropTypes from "prop-types";
 import ClientLayout from "./ClientLayout";
 import "../src/modern-normalize.css";
 import "../src/index.css";
@@ -19,3 +21,7 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+RootLayout.propTypes = {
+  children: PropTypes.node,
+};
