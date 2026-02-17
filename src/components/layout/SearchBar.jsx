@@ -3,6 +3,8 @@ import { useQuery } from '@apollo/client';
 import searchTvSerieQuery from '../apollo/schemas/queries/tvserieSearch';
 import searchGameQuery from '../apollo/schemas/queries/gameSearch';
 import searchVNQuery from '../apollo/schemas/queries/vnSearch';
+import searchAnimeQuery from '../apollo/schemas/queries/animeSearch';
+import searchMovieQuery from '../apollo/schemas/queries/movieSearch';
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { InputIcon } from 'primereact/inputicon';
@@ -14,28 +16,36 @@ import { useRouter } from "next/navigation";
 import { Dropdown } from 'primereact/dropdown';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'primereact/hooks';
 
 // eslint-disable-next-line react/prop-types
-function SearchBar({ handleClose }) {
+function SearchBar({ handleClose, minChars = 3 }) {
     const { t } = useTranslation();
-    const [value, setValue] = useState('');
+    const [value, debounceValue, setValue] = useDebounce('', 500);
     const { setErrorMessage } = useContext(ErrorContext);
     const [selectedQuery, setSelectedQuery] = useState({ name: t('search.tvserie'), code: 'tvserie' });
     const router = useRouter();
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
-    const { loading, error, data } = useQuery(
-        selectedQuery?.code === 'tvserie' ? searchTvSerieQuery :
-        selectedQuery?.code === 'game' ? searchGameQuery :
-        selectedQuery?.code === 'vn' ? searchVNQuery : null,
-        { variables: { id: /^\d+$/.test(value) ? parseInt(value) : null, name: value } }
-    );
+    const MIN_SEARCH_LENGTH = minChars;
+    const shouldSkip = !debounceValue || debounceValue.length < MIN_SEARCH_LENGTH;
 
+    const query =
+        selectedQuery?.code === 'tvserie' ? searchTvSerieQuery :
+        selectedQuery?.code === 'anime' ? searchAnimeQuery :
+        selectedQuery?.code === 'movie' ? searchMovieQuery :
+        selectedQuery?.code === 'game' ? searchGameQuery :
+        selectedQuery?.code === 'vn' ? searchVNQuery : null;
+
+    const { loading, error, data } = useQuery(query, { variables: { id: /^\d+$/.test(debounceValue) ? parseInt(debounceValue) : null, name: debounceValue }, skip: shouldSkip });
+    
     useEffect(() => {
         setGlobalLoading(loading);
     }, [loading, setGlobalLoading]);
 
     const queries = [
         { name: t('search.tvserie'), code: 'tvserie' },
+        { name: t('search.anime'), code: 'anime' },
+        { name: t('search.movie'), code: 'movie' },
         { name: t('search.game'), code: 'game' },
         { name: t('search.visualNovel'), code: 'vn' },
     ];
