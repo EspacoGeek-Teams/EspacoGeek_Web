@@ -31,7 +31,6 @@ function Home() {
             <div className="z-0 w-screen h-screen flex flex-col justify-center items-center">
                 <div className="w-1/2 pb-96">
                     <h1 className="animate-bounce text-4xl font-bold text-center">{t('home.welcome')}</h1>
-                    <p className="text-center">{t('home.subtitle')}</p>
                 </div>
             </div>
             <div className="absolute top-0 left-0 w-screen h-screen">

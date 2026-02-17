@@ -1,46 +1,64 @@
 {
-  "nav": {
-    "home": "Home",
-    "search": "Search",
-    "register": "Register",
-    "login": "Login",
-    "user": "User",
-    "logout": "Logout"
-  },
-  "search": {
-    "placeholder": "Search",
-    "tvserie": "TVSerie",
-    "game": "Game",
-    "visualNovel": "Visual Novel"
-  },
-  "auth": {
-    "login": {
-      "title": "Login",
-      "email": "Email",
-      "password": "Password",
-      "button": "Login",
-      "cancel": "Cancel"
-    },
-    "register": {
-      "title": "Register",
-      "username": "Username",
-      "email": "Email",
-      "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "button": "Register",
-      "cancel": "Cancel",
-      "success": "User registered successfully!"
-    }
-  },
-  "home": {
-    "welcome": "Welcome to EspaçoGeek!",
-    "subtitle": "Your ultimate hobby tracker for movies, series, anime, and games!"
-  },
-  "footer": {
-    "information": "INFORMATION",
-    "api": "API",
-    "followUs": "Follow us",
-    "github": "Github",
-    "copyright": "All Rights Reserved for Respective Authors."
-  }
+	"nav": {
+		"home": "Home",
+		"search": "Search",
+		"register": "Register",
+		"login": "Login",
+		"user": "User",
+		"logout": "Logout"
+	},
+	"search": {
+		"placeholder": "Search",
+		"tvserie": "TVSerie",
+		"game": "Game",
+		"visualNovel": "Visual Novel",
+    "movie": "Movie",
+    "anime": "Anime"
+	},
+	"auth": {
+		"login": {
+			"title": "Login",
+			"email": "Email",
+			"password": "Password",
+			"button": "Login",
+			"cancel": "Cancel"
+		},
+		"register": {
+			"title": "Register",
+			"username": "Username",
+			"email": "Email",
+			"password": "Password",
+			"confirmPassword": "Confirm Password",
+			"button": "Register",
+			"cancel": "Cancel",
+			"success": "User registered successfully!"
+		}
+	},
+	"home": {
+		"welcome": "Welcome to EspaçoGeek!"
+	},
+	"footer": {
+		"information": "INFORMATION",
+		"api": "API",
+		"followUs": "Follow us",
+		"github": "Github",
+		"copyright": "All Rights Reserved for Respective Authors.",
+		"about": "About"
+	},
+	"about": {
+		"aboutUs": "About Us",
+    "responsibilities": "Responsibilities",
+		"team": "Our Team",
+		"description": "We are an initiative to bring the geek community together in a single place by offering tools to track media consumption, share content, and interact socially. Build a scalable, modular, and accessible application that centralizes hobby tracking and content sharing for the geek community, following software engineering best practices and a modern technology stack."
+	},
+	"teamMemberVitorHugoJava": {
+		"quote": "If you think about infinity, then you think and confirm the infinitude of the capacity to think. If you feel infinity, you feel and confirm the infinitude of the capacity to feel. - Ludwig Feuerbach",
+		"about": "I am a Java and Mobile (Flutter) Developer with a background in Systems Analysis and Development, specializing in integrated solutions for health and education, and currently a student of AI Engineering.",
+		"role": "Responsible for API, Frontend, Mobile (Flutter) and DevOps."
+	},
+	"teamMemberAbigailASPNET": {
+		"quote": "",
+		"about": "",
+		"role": "Responsible for Mobile (Flutter)"
+	}
 }

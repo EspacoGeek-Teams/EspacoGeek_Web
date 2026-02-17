@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from "react";
 import SearchBar from "./SearchBar";
 import { Toolbar } from "primereact/toolbar";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
 import { SpeedDial } from "primereact/speeddial";
@@ -9,18 +9,17 @@ import { ScrollTop } from 'primereact/scrolltop';
 import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
-import logo1 from '../../assets/logos/logo1.png';
-import { Image } from 'primereact/image';
 import { AuthContext } from "../../contexts/AuthContext";
 import UserPopUpMenu from "../user/userPopUpMenu";
 import { useTranslation } from 'react-i18next';
-import RegisterDialog from '../user/RegisterDialog';
-import LoginDialog from '../user/LoginDialog';
 import { apiUri } from "../apollo/config";
+import Image from "next/image";
+import Link from "next/link";
+import PropTypes from 'prop-types';
 // import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
-    const navigate = useNavigate();
+    const router = useRouter();
     const { t } = useTranslation();
 
     const [SearchComponent, setSearchComponent] = useState(false);
@@ -28,7 +27,7 @@ export function TopBar() {
     const handleSearchClose = () => setSearchComponent(false);
     const handleSearchShow = () => setSearchComponent(true);
 
-    const handleNavToHome = () => navigate("/");
+    const handleNavToHome = () => router.push("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
     const { isAuthenticated, initializing, logout } = useContext(AuthContext);
@@ -39,7 +38,7 @@ export function TopBar() {
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
-            <Image src={logo1} alt="Logo" className="w-14 h-14 pt-3" />
+            <Image src="/logo1.png" alt="Logo" className="w-14 h-14" width={56} height={56} />
         </div>
     );
 
@@ -171,7 +170,6 @@ export function Footer() {
     return (
         <footer className="bg-white dark:bg-gray-900 bottom-0 right-0 left-0 !z-40 mt-10 relative">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                {/* Alinha verticalmente o conteúdo no md+ */}
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="mb-6 md:mb-0 flex items-center">
                         <a href="/" className="flex items-center">
@@ -180,30 +178,39 @@ export function Footer() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                        <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.information')}</h2>
-                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4 pr-10">
-                                    <a href={`${apiUri}/GraphiQL`} className="hover:underline">{t('footer.api')}</a>
-                                </li>
-                            </ul>
+                        <div className="flex flex-col">
+                            <h2 className="text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.information')}</h2>
+                            <Link target="_blank" rel="noreferrer" href={`${apiUri}/graphiql?path=/`} className="hover:underline text-gray-500 dark:text-gray-400 font-medium">{t('footer.api')}</Link>
+                            <Link target="_blank" rel="noreferrer" href='/about' className="hover:underline text-gray-500 dark:text-gray-400 font-medium">{t('footer.about')}</Link>
                         </div>
-                        <div>
-                            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.followUs')}</h2>
-                            <ul className="text-gray-500 dark:text-gray-400 font-medium">
-                                <li className="mb-4">
-                                    <a target="_blank" rel="noreferrer" href="https://github.com/EspacoGeek-Teams/espacogeek" className="hover:underline ">{t('footer.github')}</a>
-                                </li>
-                            </ul>
+                        <div className="flex flex-col">
+                            <h2 className="text-sm font-semibold text-gray-900 uppercase dark:text-white">{t('footer.followUs')}</h2>
+                            <Link target="_blank" rel="noreferrer" href="https://github.com/EspacoGeek-Teams" className="hover:underline text-gray-500 dark:text-gray-400 font-medium">{t('footer.github')}</Link>
                         </div>
                     </div>
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
                 <div className="sm:flex sm:items-center sm:justify-between">
-                    <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com/" className="hover:underline">EspaçoGeek</a>. {t('footer.copyright')}
+                    <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© {new Date().getFullYear()} EspaçoGeek. {t('footer.copyright')}
                     </span>
                 </div>
             </div>
         </footer>
     )
 }
+
+export default function Layout({children}) {
+    return <>
+        <TopBar />
+        
+        <div className="min-h-screen">
+            {children}
+        </div>
+
+        <Footer />
+    </>
+}
+
+Layout.propTypes = {
+    children: PropTypes.node
+};
