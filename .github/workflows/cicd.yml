@@ -73,7 +73,8 @@ jobs:
         id: package_version
         shell: bash
         run: |
-          echo "version=$(node -p \"require('./package.json').version\")" >> "$GITHUB_OUTPUT"
+          # use single quotes inside node -p to avoid nested-quote parsing issues
+          echo "version=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
 
       - name: Build Next.js (standalone)
         run: npm run build
