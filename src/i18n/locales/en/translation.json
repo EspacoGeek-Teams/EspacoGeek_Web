@@ -33,8 +33,7 @@
     }
   },
   "home": {
-    "welcome": "Welcome to EspaçoGeek!",
-    "subtitle": "Your ultimate hobby tracker for movies, series, anime, and games!"
+    "welcome": "Welcome to EspaçoGeek!"
   },
   "footer": {
     "information": "INFORMATION",
