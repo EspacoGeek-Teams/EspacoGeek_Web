@@ -22,8 +22,9 @@ export default function Page({ params }) {
     
     useEffect(() => {
         const resolveParams = async () => {
-            const resolved = params.mediaId instanceof Promise ? await params.mediaId : params.mediaId;
-            setMediaId(resolved);
+            // In Next.js 15+, params itself is a Promise
+            const resolvedParams = await params;
+            setMediaId(resolvedParams.mediaId);
         };
         resolveParams();
     }, [params]);
