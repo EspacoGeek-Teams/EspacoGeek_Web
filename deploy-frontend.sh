@@ -146,7 +146,7 @@ start_new_container() {
 
     if ! docker run -d \
         --name "$CONTAINER_NAME" \
-        -p 3000:80 \
+        -p 3000:3000 \
         --restart unless-stopped \
         "$IMAGE"; then
         log_error "Failed to start container"
@@ -169,9 +169,9 @@ validate_container_health() {
             local status=$(docker inspect "$CONTAINER_NAME" --format='{{.State.Status}}')
 
             if [ "$status" = "running" ]; then
-                # Try to access the app via HTTP (Nginx is serving)
-                if docker exec "$CONTAINER_NAME" wget -q -O- http://localhost/index.html &>/dev/null || \
-                   docker exec "$CONTAINER_NAME" curl -s http://localhost/index.html &>/dev/null; then
+                     # Try to access the app via HTTP (Next.js standalone server)
+                     if docker exec "$CONTAINER_NAME" wget -q -O- http://localhost:3000/ &>/dev/null || \
+                         docker exec "$CONTAINER_NAME" curl -sSf http://localhost:3000/ &>/dev/null; then
                     log_success "Container is healthy (HTTP OK)"
                     return 0
                 elif [ $attempt -eq $max_attempts ]; then

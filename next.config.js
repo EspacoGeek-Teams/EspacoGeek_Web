@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Produce a standalone output suitable for container deployment
+  output: 'standalone',
   images: {
     // TODO: Replace wildcards with specific trusted domains for production
     // Currently allows all domains to support various media image sources
