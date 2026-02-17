@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef } from "react";
 import SearchBar from "./SearchBar";
 import { Toolbar } from "primereact/toolbar";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
 import { SpeedDial } from "primereact/speeddial";
@@ -20,7 +20,7 @@ import { apiUri } from "../apollo/config";
 // import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
-    const navigate = useNavigate();
+    const router = useRouter();
     const { t } = useTranslation();
 
     const [SearchComponent, setSearchComponent] = useState(false);
@@ -28,7 +28,7 @@ export function TopBar() {
     const handleSearchClose = () => setSearchComponent(false);
     const handleSearchShow = () => setSearchComponent(true);
 
-    const handleNavToHome = () => navigate("/");
+    const handleNavToHome = () => router.push("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
     const { isAuthenticated, initializing, logout } = useContext(AuthContext);

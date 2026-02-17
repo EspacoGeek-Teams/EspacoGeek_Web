@@ -14,6 +14,9 @@ import YouTube from "../../../../src/components/youTubeEmbed/YouTubeEmbed";
 import { Timeline } from 'primereact/timeline';
 import { Divider } from 'primereact/divider';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function Page({ params }) {
     const [mediaId, setMediaId] = useState(null);
     

@@ -10,7 +10,7 @@ import { IconField } from 'primereact/iconfield';
 import { ErrorContext } from "../../contexts/ErrorContext";
 import { DataView } from 'primereact/dataview';
 import { ListBox } from 'primereact/listbox';
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import { Dropdown } from 'primereact/dropdown';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ function SearchBar({ handleClose }) {
     const [value, setValue] = useState('');
     const { setErrorMessage } = useContext(ErrorContext);
     const [selectedQuery, setSelectedQuery] = useState({ name: t('search.tvserie'), code: 'tvserie' });
-    const navigate = useNavigate();
+    const router = useRouter();
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
     const { loading, error, data } = useQuery(
         selectedQuery?.code === 'tvserie' ? searchTvSerieQuery :
@@ -45,7 +45,7 @@ function SearchBar({ handleClose }) {
             window.location.href = `/media/${id}/${name}`;
         } else {
             handleClose();
-            navigate(`media/${id}/${name}`);
+            router.push(`/media/${id}/${name}`);
         }
     };
 

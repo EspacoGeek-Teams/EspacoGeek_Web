@@ -13,11 +13,8 @@ const nextConfig = {
       },
     ],
   },
-  // Configuração do webpack para incluir extensões .js com JSX
-  webpack: (config) => {
-    config.resolve.extensions = ['.js', '.jsx', '.json', ...config.resolve.extensions];
-    return config;
-  },
+  // Empty turbopack config to acknowledge we're using Turbopack
+  turbopack: {},
 };
 
 module.exports = nextConfig;
