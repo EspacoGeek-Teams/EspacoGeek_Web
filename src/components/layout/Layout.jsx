@@ -9,14 +9,11 @@ import { ScrollTop } from 'primereact/scrolltop';
 import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
-import logo1 from '../../assets/logos/logo1.png';
-import { Image } from 'primereact/image';
 import { AuthContext } from "../../contexts/AuthContext";
 import UserPopUpMenu from "../user/userPopUpMenu";
 import { useTranslation } from 'react-i18next';
-import RegisterDialog from '../user/RegisterDialog';
-import LoginDialog from '../user/LoginDialog';
 import { apiUri } from "../apollo/config";
+import Image from "next/image";
 // import LanguageSwitcher from "../language/LanguageSwitcher";
 
 export function TopBar() {
@@ -39,7 +36,7 @@ export function TopBar() {
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
-            <Image src={logo1} alt="Logo" className="w-14 h-14 pt-3" />
+            <Image src="/logo1.png" alt="Logo" className="w-14 h-14" width={56} height={56} />
         </div>
     );
 
@@ -171,7 +168,6 @@ export function Footer() {
     return (
         <footer className="bg-white dark:bg-gray-900 bottom-0 right-0 left-0 !z-40 mt-10 relative">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-                {/* Alinha verticalmente o conteúdo no md+ */}
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="mb-6 md:mb-0 flex items-center">
                         <a href="/" className="flex items-center">
