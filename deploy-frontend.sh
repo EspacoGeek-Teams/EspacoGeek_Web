@@ -178,7 +178,6 @@ start_new_container() {
     if ! docker run -d \
         --name "$CONTAINER_NAME" \
         --network "$NETWORK_NAME" \
-        -p 3000:3000 \
         --restart unless-stopped \
         "$IMAGE"; then
         log_error "Failed to start container"
