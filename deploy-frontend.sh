@@ -56,7 +56,7 @@ GHCR_OWNER_LC="${1:-}"
 APP_NAME="${2:-}"
 IMAGE_TAG="${3:-latest}"
 CONTAINER_NAME="espacogeek-frontend"
-BACKUP_DIR="${HOME}/espacogeek-backups"
+BACKUP_DIR="${HOME}/espacogeek-frontend-backups"
 OLD_CONTAINER_BACKUP="${CONTAINER_NAME}-old"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
