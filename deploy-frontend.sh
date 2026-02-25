@@ -55,6 +55,7 @@ on_error() {
 GHCR_OWNER_LC="${1:-}"
 APP_NAME="${2:-}"
 IMAGE_TAG="${3:-latest}"
+NETWORK_NAME="${4:-infra_network}"
 CONTAINER_NAME="espacogeek-frontend"
 BACKUP_DIR="${HOME}/espacogeek-frontend-backups"
 OLD_CONTAINER_BACKUP="${CONTAINER_NAME}-old"
@@ -62,9 +63,11 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 # Validate arguments
 if [ -z "$GHCR_OWNER_LC" ] || [ -z "$APP_NAME" ]; then
-    log_error "Usage: $0 <GHCR_OWNER_LC> <APP_NAME> [IMAGE_TAG]"
+    log_error "Usage: $0 <GHCR_OWNER_LC> <APP_NAME> [IMAGE_TAG] [NETWORK_NAME]"
     exit 1
 fi
+
+log_info "Using Docker network: ${NETWORK_NAME}"
 
 IMAGE="ghcr.io/${GHCR_OWNER_LC}/${APP_NAME}:${IMAGE_TAG}"
 
@@ -141,11 +144,40 @@ pull_new_image() {
     fi
 }
 
+# Network helpers
+network_exists() {
+    docker network ls --format '{{.Name}}' | grep -xq "$1"
+}
+
+ensure_network_exists() {
+    local net="$1"
+    if network_exists "$net"; then
+        log_info "Docker network '$net' already exists"
+        return 0
+    fi
+
+    log_info "Creating docker network '$net'..."
+    if docker network create "$net"; then
+        log_success "Network '$net' created"
+        return 0
+    else
+        log_error "Failed to create network '$net'"
+        return 1
+    fi
+}
+
 start_new_container() {
     log_info "Starting new container..."
 
+    # Ensure the desired network exists
+    if ! ensure_network_exists "${NETWORK_NAME}"; then
+        log_error "Network '${NETWORK_NAME}' is not available"
+        return 1
+    fi
+
     if ! docker run -d \
         --name "$CONTAINER_NAME" \
+        --network "$NETWORK_NAME" \
         -p 3000:3000 \
         --restart unless-stopped \
         "$IMAGE"; then
