@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useContext, useRef } from "react";
 import SearchBar from "./SearchBar";
 import { Toolbar } from "primereact/toolbar";
@@ -199,7 +201,9 @@ export function Footer() {
     )
 }
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
+    const { t } = useTranslation();
+    
     return <>
         <TopBar />
         

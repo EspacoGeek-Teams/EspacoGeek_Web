@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import { Footer, TopBar } from "../../components/layout/Layout";
 import { Image } from 'primereact/image';
