@@ -1,5 +1,5 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next/initReactI18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import translationEN from './locales/en/translation.json';
 import translationPT from './locales/pt/translation.json';
@@ -13,7 +13,7 @@ const resources = {
   },
 };
 
-i18n
+i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
@@ -29,4 +29,4 @@ i18n
     },
   });
 
-export default i18n;
+export default i18next;
