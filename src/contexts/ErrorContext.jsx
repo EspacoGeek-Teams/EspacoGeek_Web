@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { createContext, useState } from "react";
+import { setOnErrorNotification } from '../components/toast/notificationStore';
 
 const ErrorContext = createContext();
 
@@ -7,7 +8,7 @@ const ErrorContext = createContext();
 const ErrorProvider = ({ children }) => {
     const [errorMessage, _setErrorMessage] = useState(null);
 
-    const setErrorMessage = (value) => {
+    const setErrorMessage = useCallback((value) => {
         if (typeof value === 'string') {
             _setErrorMessage({ id: Date.now(), text: value });
         } else if (value && typeof value === 'object') {
@@ -17,9 +18,14 @@ const ErrorProvider = ({ children }) => {
         } else {
             _setErrorMessage(value);
         }
-    };
+    }, []);
 
-    const showError = (text) => setErrorMessage(text);
+    const showError = useCallback((text) => setErrorMessage(text), [setErrorMessage]);
+
+    useEffect(() => {
+        setOnErrorNotification(showError);
+        return () => setOnErrorNotification(null);
+    }, [showError]);
 
     return (
         <ErrorContext.Provider value={{ errorMessage, setErrorMessage, showError }}>
