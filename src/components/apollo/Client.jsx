@@ -6,8 +6,10 @@ import { apiUri as uri } from "./config";
 
 export { uri };
 
-// Importante: credentials: 'include' para enviar cookies HttpOnly
-const httpLink = new HttpLink({ uri, credentials: "include" });
+const httpLink = new HttpLink({
+  uri: apiUri,
+  credentials: 'include',
+});
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -15,6 +17,23 @@ const authLink = setContext((_, { headers }) => {
       ...headers,
     },
     fetchOptions: { credentials: "include" },
+  };
+});
+
+const getXsrfToken = () => {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(^| )XSRF-TOKEN=([^;]+)'));
+  if (match) return match[2];
+  return null;
+};
+
+const csrfLink = setContext((_, { headers }) => {
+  const xsrfToken = getXsrfToken();
+  return {
+    headers: {
+      ...headers,
+      ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}),
+    }
   };
 });
 
@@ -28,7 +47,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const clientAPI = new ApolloClient({
-  link: from([errorLink, authLink, httpLink]),
+  link: from([errorLink, csrfLink, authLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: { fetchPolicy: "cache-first" },
