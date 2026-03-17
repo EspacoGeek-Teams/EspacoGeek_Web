@@ -10,8 +10,10 @@ import { apiUri as uri } from "./config";
 
 export { uri };
 
-// credentials: 'include' envia o cookie HTTPOnly de refresh para o backend automaticamente
-const httpLink = new HttpLink({ uri, credentials: "include" });
+const httpLink = new HttpLink({
+  uri: uri,
+  credentials: 'include',
+});
 
 // Injeta o access token em memória como Authorization: Bearer em cada requisição
 const authLink = setContext((_, { headers }) => {
@@ -63,7 +65,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
 });
 
 const clientAPI = new ApolloClient({
-  link: from([errorLink, authLink, httpLink]),
+  link: from([errorLink, csrfLink, authLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: { fetchPolicy: "cache-first" },
