@@ -65,7 +65,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
 });
 
 const clientAPI = new ApolloClient({
-  link: from([errorLink, csrfLink, authLink, httpLink]),
+  link: from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     watchQuery: { fetchPolicy: "cache-first" },
