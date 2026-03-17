@@ -31,10 +31,19 @@ export async function refreshAccessToken() {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: 'query RefreshToken { refreshToken }' }),
+      body: JSON.stringify({
+        query: `
+          mutation RefreshToken {
+            refreshToken {
+              accessToken
+              user { id username email }
+            }
+          }
+        `,
+      }),
     });
     const json = await response.json();
-    const token = json?.data?.refreshToken;
+    const token = json?.data?.refreshToken?.accessToken;
     if (typeof token === 'string' && token.length > 0) {
       setAccessToken(token);
       return token;

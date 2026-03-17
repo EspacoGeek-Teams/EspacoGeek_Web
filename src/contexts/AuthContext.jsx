@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import loginMutation from "../components/apollo/schemas/queries/login";
 import { setOnUnauthorized, fetchAuthMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
-import { useApolloClient, gql } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 
 export const AuthContext = createContext({
   // accessToken removido em modo HttpOnly puro
@@ -48,33 +48,18 @@ export function AuthProvider({ children }) {
     return () => { cancelled = true; };
   }, []);
 
-  // Documento para fallback quando o backend expõe login como Query
-  const loginQueryDoc = gql`
-    query Login($email: String!, $password: String!) {
-      login(email: $email, password: $password)
-    }
-  `;
-
   const login = useCallback(async (email, password) => {
-    // Tenta mutation primeiro (padrão recomendado); se falhar, tenta query
     let accessToken = null;
+    let userFromServer = null;
     try {
       const result = await apollo.mutate({
         mutation: loginMutation,
         variables: { email, password },
       });
-      accessToken = result?.data?.login ?? null;
+      accessToken = result?.data?.login?.accessToken ?? null;
+      userFromServer = result?.data?.login?.user ?? null;
     } catch (_e) {
-      try {
-        const result = await apollo.query({
-          query: loginQueryDoc,
-          variables: { email, password },
-          fetchPolicy: "no-cache",
-        });
-        accessToken = result?.data?.login ?? null;
-      } catch (_e2) {
-        return false;
-      }
+      return false;
     }
 
     // Armazena o access token em memória se o backend o retornou
@@ -86,7 +71,7 @@ export function AuthProvider({ children }) {
     const logged = await fetchAuthMe();
     if (logged) {
       setIsAuthenticated(true);
-      setUser(null);
+      setUser(userFromServer);
       setLoginVisible(false);
       return true;
     }

@@ -1,9 +1,16 @@
 import { gql } from "@apollo/client";
 
-const refreshTokenQuery = gql`
-  query RefreshToken {
-    refreshToken
+const refreshTokenMutation = gql`
+  mutation RefreshToken {
+    refreshToken {
+      accessToken
+      user {
+        id
+        username
+        email
+      }
+    }
   }
 `;
 
-export default refreshTokenQuery;
+export default refreshTokenMutation;
