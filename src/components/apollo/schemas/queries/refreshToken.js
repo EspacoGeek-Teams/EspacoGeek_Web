@@ -4,11 +4,6 @@ const refreshTokenMutation = gql`
   mutation RefreshToken {
     refreshToken {
       accessToken
-      user {
-        id
-        username
-        email
-      }
     }
   }
 `;

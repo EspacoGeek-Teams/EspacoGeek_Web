@@ -36,7 +36,6 @@ export async function refreshAccessToken() {
           mutation RefreshToken {
             refreshToken {
               accessToken
-              user { id username email }
             }
           }
         `,

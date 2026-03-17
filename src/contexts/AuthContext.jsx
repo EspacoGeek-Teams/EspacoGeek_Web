@@ -50,14 +50,12 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (email, password) => {
     let accessToken = null;
-    let userFromServer = null;
     try {
       const result = await apollo.mutate({
         mutation: loginMutation,
         variables: { email, password },
       });
       accessToken = result?.data?.login?.accessToken ?? null;
-      userFromServer = result?.data?.login?.user ?? null;
     } catch (_e) {
       return false;
     }
@@ -71,7 +69,6 @@ export function AuthProvider({ children }) {
     const logged = await fetchAuthMe();
     if (logged) {
       setIsAuthenticated(true);
-      setUser(userFromServer);
       setLoginVisible(false);
       return true;
     }
