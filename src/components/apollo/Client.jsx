@@ -7,7 +7,7 @@ import { apiUri as uri } from "./config";
 export { uri };
 
 const httpLink = new HttpLink({
-  uri: apiUri,
+  uri: uri,
   credentials: 'include',
 });
 
