@@ -60,5 +60,13 @@
 		"quote": "",
 		"about": "",
 		"role": "Responsible for Mobile (Flutter)"
+	},
+	"errors": {
+		"1001": "Incorrect email or password.",
+		"1002": "Your session has expired, please log in again.",
+		"2001": "This email is already in use.",
+		"2003": "This media is already in your library!",
+		"2004": "Please check the filled data and try again.",
+		"generic": "Oops, something went wrong on our servers. Please try again later."
 	}
 }
