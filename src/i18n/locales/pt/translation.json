@@ -67,6 +67,8 @@
 		"2001": "Este e-mail já está em uso.",
 		"2003": "Esta mídia já está na sua biblioteca!",
 		"2004": "Verifique os dados preenchidos e tente novamente.",
+		"5000": "Ocorreu um erro inesperado no servidor. Tente novamente mais tarde.",
+		"5001": "Ocorreu um erro no banco de dados. Tente novamente mais tarde.",
 		"generic": "Ops, algo deu errado em nossos servidores. Tente novamente mais tarde."
 	}
 }
