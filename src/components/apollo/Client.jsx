@@ -7,31 +7,23 @@ import {
   refreshAccessToken,
 } from "../../auth/authStore";
 import { triggerErrorNotification } from "../toast/notificationStore";
+import i18n from "../../i18n/config";
 import { apiUri as uri } from "./config";
 
 export { uri };
 
-const ERROR_MESSAGES = {
-  1001: 'E-mail ou senha incorretos.',
-  1002: 'Sua sessão expirou, faça login novamente.',
-  2001: 'Este e-mail já está em uso.',
-  2003: 'Esta mídia já está na sua biblioteca!',
-  2004: 'Verifique os dados preenchidos e tente novamente.',
-};
-
-const GENERIC_SERVER_ERROR = 'Ops, algo deu errado em nossos servidores. Tente novamente mais tarde.';
-
-function resolveErrorMessage(customNumber) {
-  if (customNumber !== undefined && customNumber !== null) {
-    if (ERROR_MESSAGES[customNumber]) {
-      return ERROR_MESSAGES[customNumber];
+function resolveErrorMessage(errorCode) {
+  if (errorCode !== undefined && errorCode !== null) {
+    const key = `errors.${errorCode}`;
+    if (i18n.exists(key)) {
+      return i18n.t(key);
     }
-    if (Math.floor(customNumber / 1000) === 5) {
-      return GENERIC_SERVER_ERROR;
+    if (Math.floor(errorCode / 1000) === 5) {
+      return i18n.t('errors.generic');
     }
     return null;
   }
-  return GENERIC_SERVER_ERROR;
+  return i18n.t('errors.generic');
 }
 
 const httpLink = new HttpLink({
@@ -53,7 +45,7 @@ const authLink = setContext((_, { headers }) => {
 // Ao receber 401 / UNAUTHENTICATED, tenta renovar o access token via cookie HTTPOnly de refresh.
 // Se a renovação for bem-sucedida, reenvia a operação original com o novo token.
 // Se falhar, limpa o token e notifica o handler de não-autorizado.
-// Para outros erros GraphQL, traduz extensions.customNumber em notificações amigáveis.
+// Para outros erros GraphQL, traduz extensions.errorCode em notificações amigáveis via i18n.
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   const unauth =
     (graphQLErrors && graphQLErrors.some((e) => e?.extensions?.code === "UNAUTHENTICATED" || e?.extensions?.classification === "UNAUTHORIZED")) ||
@@ -91,8 +83,8 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
   if (graphQLErrors) {
     graphQLErrors.forEach((err) => {
       if (err?.extensions?.code === "UNAUTHENTICATED" || err?.extensions?.classification === "UNAUTHORIZED") return;
-      const customNumber = err?.extensions?.customNumber;
-      const message = resolveErrorMessage(customNumber);
+      const errorCode = err?.extensions?.errorCode;
+      const message = resolveErrorMessage(errorCode);
       if (message) {
         triggerErrorNotification(message);
       }
@@ -100,7 +92,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
   }
 
   if (networkError) {
-    triggerErrorNotification(GENERIC_SERVER_ERROR);
+    triggerErrorNotification(i18n.t('errors.generic'));
   }
 });
 
