@@ -67,6 +67,8 @@
 		"2001": "This email is already in use.",
 		"2003": "This media is already in your library!",
 		"2004": "Please check the filled data and try again.",
+		"5000": "An unexpected server error occurred. Please try again later.",
+		"5001": "A database error occurred. Please try again later.",
 		"generic": "Oops, something went wrong on our servers. Please try again later."
 	}
 }
