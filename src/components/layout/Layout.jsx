@@ -85,7 +85,7 @@ export function TopBar() {
             icon: "pi pi-search",
             command: () => handleSearchShow(),
         },
-        ...(isAuthenticated && !initializing ? [
+        ...(initializing ? [] : isAuthenticated ? [
             {
                 label: 'Profile',
                 icon: 'pi pi-user',

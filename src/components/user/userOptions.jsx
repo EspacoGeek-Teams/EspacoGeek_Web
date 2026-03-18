@@ -11,19 +11,17 @@ export function UserOptions() {
     return (
         <>
             {
-                isAuthenticated && !initializing ? (
+                initializing ? (
+                    <div className="flex flex-col gap-2 mr-3">
+                        <ProgressSpinner className="h-7 w-7" />
+                    </div>
+                ) : isAuthenticated ? (
                     <UserLogged />
                 ) : (
-                    !initializing ? (
-                        <div>
-                            <UserRegister />
-                            <LoginButton />
-                        </div>
-                        ) : (
-                        <div className="flex flex-col gap-2 mr-3">
-                            <ProgressSpinner className="h-7 w-7" />
-                        </div>
-                    )
+                    <div>
+                        <UserRegister />
+                        <LoginButton />
+                    </div>
                 )
             }
         </>
