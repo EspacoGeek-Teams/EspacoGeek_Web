@@ -22,6 +22,7 @@ export default function Media() {
         setGlobalLoading(loading);
     }, [loading, setGlobalLoading]);
 
+    // Atualiza o título da página quando o nome da mídia mudar
     useEffect(() => {
         document.title = `${data?.media?.name ?? 'Media'} - EspaçoGeek`;
     }, [data?.media?.name]);
@@ -37,7 +38,7 @@ export default function Media() {
         return `${day}/${month}/${year}`;
     }
 
-    const seasonMarker = (item) => {
+    const seasonMarker = () => {
         return (
             <span className="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1">
                 <i className="pi pi-circle"></i>

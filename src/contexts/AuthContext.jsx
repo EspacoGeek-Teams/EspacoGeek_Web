@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import loginMutation from "../components/apollo/schemas/queries/login";
-import { setOnUnauthorized, fetchAuthMe, logout as serverLogout } from "../auth/authStore";
-import { useApolloClient, gql } from "@apollo/client";
+import { setOnUnauthorized, fetchAuthMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
+import { useApolloClient } from "@apollo/client";
 
 export const AuthContext = createContext({
   // accessToken removido em modo HttpOnly puro
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     setOnUnauthorized(() => {
-      // Apenas ajusta estado; não força modal nem mostra erro
+      clearAccessToken();
       setIsAuthenticated(false);
       setUser(null);
     });
@@ -48,37 +48,27 @@ export function AuthProvider({ children }) {
     return () => { cancelled = true; };
   }, []);
 
-  // Documento para fallback quando o backend expõe login como Query
-  const loginQueryDoc = gql`
-    query Login($email: String!, $password: String!) {
-      login(email: $email, password: $password)
-    }
-  `;
-
   const login = useCallback(async (email, password) => {
-    // Tenta mutation primeiro (padrão recomendado); se falhar, tenta query
+    let accessToken = null;
     try {
-      await apollo.mutate({
+      const result = await apollo.mutate({
         mutation: loginMutation,
         variables: { email, password },
       });
+      accessToken = result?.data?.login?.accessToken ?? null;
     } catch (_e) {
-      try {
-        await apollo.query({
-          query: loginQueryDoc,
-          variables: { email, password },
-          fetchPolicy: "no-cache",
-        });
-      } catch (_e2) {
-        return false;
-      }
+      return false;
     }
 
-    // Confirma sessão via /auth/me (baseado no cookie)
+    // Armazena o access token em memória se o backend o retornou
+    if (typeof accessToken === 'string' && accessToken.length > 0) {
+      setAccessToken(accessToken);
+    }
+
+    // Confirma sessão via fetchAuthMe (baseado no cookie e/ou token em memória)
     const logged = await fetchAuthMe();
     if (logged) {
       setIsAuthenticated(true);
-      setUser(null);
       setLoginVisible(false);
       return true;
     }
