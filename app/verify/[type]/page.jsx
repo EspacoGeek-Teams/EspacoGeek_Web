@@ -11,6 +11,8 @@ import resetPasswordMutation from "../../../src/components/apollo/schemas/mutati
 import verifyEmailChangeMutation from "../../../src/components/apollo/schemas/mutations/verifyEmailChange";
 import PasswordInput, { isValidPassword } from "../../../src/components/user/PasswordInput";
 
+const MIN_PASSWORD_LENGTH = 6;
+
 export default function VerifyPage() {
     const params = useParams();
     const searchParams = useSearchParams();
