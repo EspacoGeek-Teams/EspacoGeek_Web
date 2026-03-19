@@ -6,13 +6,13 @@ import { Ripple } from 'primereact/ripple';
 import { InputText } from 'primereact/inputtext';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
-import { Password } from 'primereact/password';
 import { useMutation } from '@apollo/client';
 import CREATE_USER_MUTATION from '../apollo/schemas/mutations/createUser';
 import { useTranslation } from 'react-i18next';
 import { GlobalLoadingContext } from '../../contexts/GlobalLoadingContext';
 import { ErrorContext } from '../../contexts/ErrorContext';
 import { SuccessContext } from '../../contexts/SuccessContext';
+import PasswordInput, { isValidPassword } from './PasswordInput';
 
 const RegisterDialog = forwardRef(({ children = null, title = null, className = '', dialogProps = {} }, ref) => {
     const { t } = useTranslation();
@@ -35,8 +35,13 @@ const RegisterDialog = forwardRef(({ children = null, title = null, className = 
     useImperativeHandle(ref, () => ({ open: () => setVisible(true), close: () => setVisible(false), toggle: () => setVisible(v => !v), visible }), [visible]);
 
     const handleCreateUser = async () => {
+        if (!isValidPassword(password)) {
+            showError(t('auth.register.passwordInvalid'));
+            return;
+        }
+
         if (password !== confirmPassword) {
-            showError(t('auth.register.passwordMismatch') || 'Passwords do not match');
+            showError(t('auth.register.passwordMismatch'));
             return;
         }
 
@@ -74,15 +79,21 @@ const RegisterDialog = forwardRef(({ children = null, title = null, className = 
                             <InputIcon className={loading ? 'pi pi-spin pi-spinner' : 'pi pi-envelope'} />
                         </IconField>
 
-                        <IconField iconPosition="left">
-                            <Password placeholder={t('auth.register.password')} value={password} toggleMask feedback={false} inputClassName="px-12 p-4 text-xl" onInput={(e) => setPassword(e.target.value)} />
-                            <InputIcon className={loading ? 'pi pi-spin pi-spinner' : 'pi pi-lock'} />
-                        </IconField>
+                        <PasswordInput
+                            placeholder={t('auth.register.password')}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            loading={loading}
+                            feedback={true}
+                        />
 
-                        <IconField iconPosition="left">
-                            <Password placeholder={t('auth.register.confirmPassword')} value={confirmPassword} toggleMask feedback={false} inputClassName="px-12 p-4 text-xl" onInput={(e) => setConfirmPassword(e.target.value)} />
-                            <InputIcon className={loading ? 'pi pi-spin pi-spinner' : 'pi pi-lock'} />
-                        </IconField>
+                        <PasswordInput
+                            placeholder={t('auth.register.confirmPassword')}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            loading={loading}
+                            feedback={false}
+                        />
 
                         <Button label={t('auth.register.button')} rounded onClick={handleCreateUser} />
                         <Button label={t('auth.register.cancel')} onClick={() => setVisible(false)} outlined />
