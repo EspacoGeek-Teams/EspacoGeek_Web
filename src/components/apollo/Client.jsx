@@ -54,13 +54,13 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
   if (unauth) {
     return new Observable((observer) => {
       refreshAccessToken()
-        .then((newToken) => {
-          if (newToken) {
+        .then((result) => {
+          if (result) {
             const oldHeaders = operation.getContext().headers;
             operation.setContext({
               headers: {
                 ...oldHeaders,
-                authorization: `Bearer ${newToken}`,
+                authorization: `Bearer ${result.accessToken}`,
               },
             });
             forward(operation).subscribe({

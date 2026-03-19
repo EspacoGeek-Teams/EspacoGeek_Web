@@ -1,6 +1,5 @@
 import client from "../components/apollo/Client";
 import isLoggedQuery from "../components/apollo/schemas/queries/isLogged";
-import meQuery from "../components/apollo/schemas/queries/me";
 import logoutQuery from "../components/apollo/schemas/queries/logout";
 import { apiUri } from "../components/apollo/config";
 
@@ -25,7 +24,7 @@ export function clearAccessToken() {
 
 // Requests a new access token from the backend using the HTTPOnly refresh token cookie.
 // Uses fetch directly (not Apollo) to avoid circular-dependency and retry-loop issues.
-// Returns the new access token string on success, or null on failure.
+// Returns { accessToken, user } on success, or null on failure.
 export async function refreshAccessToken() {
   try {
     const response = await fetch(apiUri, {
@@ -37,6 +36,12 @@ export async function refreshAccessToken() {
           mutation RefreshToken {
             refreshToken {
               accessToken
+              user {
+                id
+                email
+                username
+                roles
+              }
             }
           }
         `,
@@ -46,7 +51,7 @@ export async function refreshAccessToken() {
     const token = json?.data?.refreshToken?.accessToken;
     if (typeof token === 'string' && token.length > 0) {
       setAccessToken(token);
-      return token;
+      return { accessToken: token, user: json?.data?.refreshToken?.user ?? null };
     }
     return null;
   } catch {
@@ -64,19 +69,6 @@ export async function fetchAuthMe() {
     return !!data?.isLogged;
   } catch (e) {
     return false;
-  }
-}
-
-// Busca dados do usuário autenticado via GraphQL: query Me { me { id email username roles } }
-export async function fetchMe() {
-  try {
-    const { data } = await client.query({
-      query: meQuery,
-      fetchPolicy: 'no-cache',
-    });
-    return data?.me ?? null;
-  } catch {
-    return null;
   }
 }
 

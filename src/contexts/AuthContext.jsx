@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import loginMutation from "../components/apollo/schemas/queries/login";
-import { setOnUnauthorized, fetchAuthMe, fetchMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
+import { setOnUnauthorized, refreshAccessToken, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
 import { useApolloClient } from "@apollo/client";
 
 export const AuthContext = createContext({
@@ -31,18 +31,19 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
-  // Checagem automática de sessão no carregamento da app
+  // Checagem automática de sessão no carregamento da app usando refreshToken,
+  // que retorna tanto o accessToken quanto os dados do usuário em uma única chamada.
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const logged = await fetchAuthMe();
+        const result = await refreshAccessToken();
         if (!cancelled) {
-          setIsAuthenticated(!!logged);
-          if (logged) {
-            const userData = await fetchMe();
-            if (!cancelled) setUser(userData);
+          if (result) {
+            setIsAuthenticated(true);
+            setUser(result.user ?? null);
           } else {
+            setIsAuthenticated(false);
             setUser(null);
           }
         }
@@ -54,28 +55,25 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = useCallback(async (email, password) => {
-    let accessToken = null;
+    let loginData = null;
     try {
       const result = await apollo.mutate({
         mutation: loginMutation,
         variables: { email, password },
       });
-      accessToken = result?.data?.login?.accessToken ?? null;
+      loginData = result?.data?.login ?? null;
     } catch (_e) {
       return false;
     }
 
+    const accessToken = loginData?.accessToken ?? null;
+
     // Armazena o access token em memória se o backend o retornou
     if (typeof accessToken === 'string' && accessToken.length > 0) {
       setAccessToken(accessToken);
-    }
-
-    // Confirma sessão via fetchAuthMe (baseado no cookie e/ou token em memória)
-    const logged = await fetchAuthMe();
-    if (logged) {
+      // Use user data returned directly by the login mutation
       setIsAuthenticated(true);
-      const userData = await fetchMe();
-      setUser(userData);
+      setUser(loginData?.user ?? null);
       setLoginVisible(false);
       return true;
     }
