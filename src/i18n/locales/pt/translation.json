@@ -31,7 +31,32 @@
 			"confirmPassword": "Confirmar Senha",
 			"button": "Registrar",
 			"cancel": "Cancelar",
-			"success": "Usuário registrado com sucesso!"
+			"success": "Usuário registrado com sucesso!",
+			"passwordMismatch": "As senhas não coincidem.",
+			"passwordInvalid": "A senha não atende aos requisitos."
+		},
+		"changePassword": {
+			"title": "Alterar Senha",
+			"currentPassword": "Senha Atual",
+			"newPassword": "Nova Senha",
+			"confirmPassword": "Confirmar Nova Senha",
+			"button": "Alterar Senha",
+			"cancel": "Cancelar",
+			"success": "Senha alterada com sucesso!",
+			"passwordMismatch": "As novas senhas não coincidem.",
+			"passwordInvalid": "A nova senha não atende aos requisitos."
+		}
+	},
+	"password": {
+		"invalid": "A senha não atende aos requisitos.",
+		"requirements": {
+			"title": "A senha deve conter:",
+			"length": "Entre 8 e 70 caracteres",
+			"uppercase": "Pelo menos uma letra maiúscula (A–Z)",
+			"lowercase": "Pelo menos uma letra minúscula (a–z)",
+			"digit": "Pelo menos um dígito (0–9)",
+			"special": "Pelo menos um caractere especial (!*@#$%^&+=)",
+			"noSpaces": "Sem espaços"
 		}
 	},
 	"home": {

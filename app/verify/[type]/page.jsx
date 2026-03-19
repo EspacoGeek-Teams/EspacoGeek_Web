@@ -9,6 +9,7 @@ import verifyEmailMutation from "../../../src/components/apollo/schemas/mutation
 import requestPasswordResetMutation from "../../../src/components/apollo/schemas/mutations/requestPasswordReset";
 import resetPasswordMutation from "../../../src/components/apollo/schemas/mutations/resetPassword";
 import verifyEmailChangeMutation from "../../../src/components/apollo/schemas/mutations/verifyEmailChange";
+import PasswordInput, { isValidPassword } from "../../../src/components/user/PasswordInput";
 
 const MIN_PASSWORD_LENGTH = 6;
 
@@ -85,9 +86,9 @@ export default function VerifyPage() {
             setMessage(t('verify.missingToken'));
             return;
         }
-        if (newPassword.length < MIN_PASSWORD_LENGTH) {
+        if (!isValidPassword(newPassword)) {
             setStatus('error');
-            setMessage(t('verify.passwordTooShort'));
+            setMessage(t('password.invalid'));
             return;
         }
         if (newPassword !== confirmPassword) {
@@ -166,22 +167,22 @@ export default function VerifyPage() {
                         <form onSubmit={handleResetPassword} className="flex flex-col gap-4 mt-4">
                             <label className="flex flex-col gap-1">
                                 <span className="font-medium">{t('verify.newPassword')}</span>
-                                <input
-                                    type="password"
+                                <PasswordInput
                                     value={newPassword}
-                                    onChange={e => setNewPassword(e.target.value)}
-                                    required
-                                    className="border rounded-lg px-3 py-2 dark:bg-gray-700 dark:border-gray-600"
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    placeholder={t('verify.newPassword')}
+                                    feedback
+                                    disabled={loadingReset}
                                 />
                             </label>
                             <label className="flex flex-col gap-1">
                                 <span className="font-medium">{t('verify.confirmPassword')}</span>
-                                <input
-                                    type="password"
+                                <PasswordInput
                                     value={confirmPassword}
-                                    onChange={e => setConfirmPassword(e.target.value)}
-                                    required
-                                    className="border rounded-lg px-3 py-2 dark:bg-gray-700 dark:border-gray-600"
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    placeholder={t('verify.confirmPassword')}
+                                    feedback={false}
+                                    disabled={loadingReset}
                                 />
                             </label>
                             <button

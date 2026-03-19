@@ -31,7 +31,32 @@
 			"confirmPassword": "Confirm Password",
 			"button": "Register",
 			"cancel": "Cancel",
-			"success": "User registered successfully!"
+			"success": "User registered successfully!",
+			"passwordMismatch": "Passwords do not match.",
+			"passwordInvalid": "Password does not meet the requirements."
+		},
+		"changePassword": {
+			"title": "Change Password",
+			"currentPassword": "Current Password",
+			"newPassword": "New Password",
+			"confirmPassword": "Confirm New Password",
+			"button": "Change Password",
+			"cancel": "Cancel",
+			"success": "Password changed successfully!",
+			"passwordMismatch": "New passwords do not match.",
+			"passwordInvalid": "New password does not meet the requirements."
+		}
+	},
+	"password": {
+		"invalid": "Password does not meet the requirements.",
+		"requirements": {
+			"title": "Password must contain:",
+			"length": "Between 8 and 70 characters",
+			"uppercase": "At least one uppercase letter (A–Z)",
+			"lowercase": "At least one lowercase letter (a–z)",
+			"digit": "At least one digit (0–9)",
+			"special": "At least one special character (!*@#$%^&+=)",
+			"noSpaces": "No spaces"
 		}
 	},
 	"home": {

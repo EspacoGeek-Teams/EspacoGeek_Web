@@ -1,11 +1,15 @@
 import React, { useRef, useContext } from 'react';
 import { Avatar } from 'primereact/avatar';
 import UserPopUpMenu from './userPopUpMenu';
+import EditPasswordDialog from './EditPasswordDialog';
 import { AuthContext } from "../../contexts/AuthContext";
+import { useTranslation } from 'react-i18next';
 
 export default function UserLogged() {
     const menu = useRef(null);
+    const editPasswordRef = useRef(null);
     const { logout } = useContext(AuthContext);
+    const { t } = useTranslation();
 
     const items = [
         {
@@ -25,6 +29,11 @@ export default function UserLogged() {
             icon: 'pi pi-cog',
         },
         {
+            label: t('auth.changePassword.title'),
+            icon: 'pi pi-key',
+            command: () => editPasswordRef.current?.open(),
+        },
+        {
             separator: true
         },
         {
@@ -40,6 +49,7 @@ export default function UserLogged() {
                 <Avatar icon="pi pi-user" className="mr-2" shape="circle" onClick={(e) => menu.current.toggle(e)} />
             </div>
             <UserPopUpMenu ref={menu} model={items} />
+            <EditPasswordDialog ref={editPasswordRef} />
         </>
     );
 }
