@@ -61,6 +61,24 @@
 		"about": "",
 		"role": "Responsible for Mobile (Flutter)"
 	},
+	"verify": {
+		"title": "Account Verification",
+		"loading": "Processing, please wait...",
+		"redirecting": "Redirecting you shortly...",
+		"emailVerified": "Your email has been verified successfully! You can now log in.",
+		"emailChangeVerified": "Your email change has been verified successfully!",
+		"resetEmailSent": "A password reset link has been sent to your email.",
+		"passwordReset": "Your password has been reset successfully!",
+		"invalidToken": "This verification link is invalid or has expired.",
+		"missingToken": "Verification token is missing.",
+		"passwordTooShort": "Password must be at least 6 characters.",
+		"passwordMismatch": "Passwords do not match.",
+		"requestFailed": "An error occurred. Please try again.",
+		"send": "Send",
+		"newPassword": "New Password",
+		"confirmPassword": "Confirm Password",
+		"resetPassword": "Reset Password"
+	},
 	"errors": {
 		"1001": "Incorrect email or password.",
 		"1002": "Your session has expired, please log in again.",

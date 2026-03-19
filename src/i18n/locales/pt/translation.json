@@ -61,6 +61,24 @@
 		"about": "",
 		"role": "Responsável pelo Mobile (Flutter)"
 	},
+	"verify": {
+		"title": "Verificação de Conta",
+		"loading": "Processando, aguarde...",
+		"redirecting": "Você será redirecionado em breve...",
+		"emailVerified": "Seu e-mail foi verificado com sucesso! Agora você pode fazer login.",
+		"emailChangeVerified": "A alteração do seu e-mail foi verificada com sucesso!",
+		"resetEmailSent": "Um link de redefinição de senha foi enviado para o seu e-mail.",
+		"passwordReset": "Sua senha foi redefinida com sucesso!",
+		"invalidToken": "Este link de verificação é inválido ou expirou.",
+		"missingToken": "Token de verificação ausente.",
+		"passwordTooShort": "A senha deve ter pelo menos 6 caracteres.",
+		"passwordMismatch": "As senhas não coincidem.",
+		"requestFailed": "Ocorreu um erro. Tente novamente.",
+		"send": "Enviar",
+		"newPassword": "Nova Senha",
+		"confirmPassword": "Confirmar Senha",
+		"resetPassword": "Redefinir Senha"
+	},
 	"errors": {
 		"1001": "E-mail ou senha incorretos.",
 		"1002": "Sua sessão expirou, faça login novamente.",
