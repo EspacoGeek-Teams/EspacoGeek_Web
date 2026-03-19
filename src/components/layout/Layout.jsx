@@ -32,7 +32,7 @@ export function TopBar() {
     const handleNavToHome = () => router.push("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
-    const { isAuthenticated, initializing, logout } = useContext(AuthContext);
+    const { isAuthenticated, initializing, logout, user } = useContext(AuthContext);
 
     const userMenuRef = useRef(null);
     const registerDialogRef = useRef(null);
@@ -102,6 +102,11 @@ export function TopBar() {
                 label: 'Settings',
                 icon: 'pi pi-cog',
             },
+            ...(user?.roles?.includes('ROLE_ADMIN') ? [{
+                label: t('nav.adminPanel'),
+                icon: 'pi pi-lock',
+                command: () => router.push('/admin'),
+            }] : []),
             {
                 label: 'Logout',
                 icon: 'pi pi-sign-out',

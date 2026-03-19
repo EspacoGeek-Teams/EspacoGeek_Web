@@ -4,12 +4,16 @@ import UserPopUpMenu from './userPopUpMenu';
 import EditPasswordDialog from './EditPasswordDialog';
 import { AuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
 
 export default function UserLogged() {
     const menu = useRef(null);
     const editPasswordRef = useRef(null);
-    const { logout } = useContext(AuthContext);
+    const { logout, user } = useContext(AuthContext);
     const { t } = useTranslation();
+    const router = useRouter();
+
+    const isAdmin = user?.roles?.includes('ROLE_ADMIN');
 
     const items = [
         {
@@ -33,6 +37,16 @@ export default function UserLogged() {
             icon: 'pi pi-key',
             command: () => editPasswordRef.current?.open(),
         },
+        ...(isAdmin ? [
+            {
+                separator: true
+            },
+            {
+                label: t('nav.adminPanel'),
+                icon: 'pi pi-lock',
+                command: () => router.push('/admin'),
+            }
+        ] : []),
         {
             separator: true
         },

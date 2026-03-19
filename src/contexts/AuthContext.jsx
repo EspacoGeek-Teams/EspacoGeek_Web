@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import loginMutation from "../components/apollo/schemas/queries/login";
-import { setOnUnauthorized, fetchAuthMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
+import { setOnUnauthorized, fetchAuthMe, fetchMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
 import { useApolloClient } from "@apollo/client";
 
 export const AuthContext = createContext({
@@ -39,7 +39,12 @@ export function AuthProvider({ children }) {
         const logged = await fetchAuthMe();
         if (!cancelled) {
           setIsAuthenticated(!!logged);
-          setUser(null);
+          if (logged) {
+            const userData = await fetchMe();
+            if (!cancelled) setUser(userData);
+          } else {
+            setUser(null);
+          }
         }
       } finally {
         if (!cancelled) setInitializing(false);
@@ -69,6 +74,8 @@ export function AuthProvider({ children }) {
     const logged = await fetchAuthMe();
     if (logged) {
       setIsAuthenticated(true);
+      const userData = await fetchMe();
+      setUser(userData);
       setLoginVisible(false);
       return true;
     }
