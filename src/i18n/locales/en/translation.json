@@ -61,6 +61,40 @@
 		"about": "",
 		"role": "Responsible for Mobile (Flutter)"
 	},
+	"admin": {
+		"batchJobs": {
+			"pageTitle": "Admin - Batch Jobs",
+			"title": "Batch Jobs Dashboard",
+			"description": "Manage and monitor Spring Batch import jobs. Trigger jobs manually and track their execution status in real time.",
+			"availableJobs": "Available Jobs",
+			"trigger": "Run",
+			"recentExecutions": "Recent Executions",
+			"refresh": "Refresh",
+			"noExecutions": "No recent executions found.",
+			"confirmHeader": "Confirm Job Execution",
+			"confirmTrigger": "Are you sure you want to trigger the job \"{{jobName}}\"?",
+			"confirmAccept": "Yes, run it",
+			"confirmReject": "Cancel",
+			"triggerSuccess": "Job \"{{jobName}}\" triggered successfully!",
+			"accessDenied": "Access denied. Admin privileges required.",
+			"jobs": {
+				"moviesImportJob": "Movies Import",
+				"seriesImportJob": "Series Import"
+			},
+			"jobDescriptions": {
+				"moviesImportJob": "Imports movie data from JSON source files into the database.",
+				"seriesImportJob": "Imports TV series data from JSON source files into the database."
+			},
+			"columns": {
+				"jobName": "Job Name",
+				"executionId": "Execution ID",
+				"status": "Status",
+				"startTime": "Start Time",
+				"endTime": "End Time",
+				"exitStatus": "Exit Status"
+			}
+		}
+	},
 	"errors": {
 		"1001": "Incorrect email or password.",
 		"1002": "Your session has expired, please log in again.",

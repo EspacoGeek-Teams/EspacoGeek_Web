@@ -1,12 +1,13 @@
 import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import loginMutation from "../components/apollo/schemas/queries/login";
-import { setOnUnauthorized, fetchAuthMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
+import { setOnUnauthorized, fetchAuthMe, fetchMe, logout as serverLogout, setAccessToken, clearAccessToken } from "../auth/authStore";
 import { useApolloClient } from "@apollo/client";
 
 export const AuthContext = createContext({
   // accessToken removido em modo HttpOnly puro
   isAuthenticated: false,
   user: null,
+  isAdmin: false,
   initializing: true,
   login: async () => false,
   logout: () => {},
@@ -39,7 +40,10 @@ export function AuthProvider({ children }) {
         const logged = await fetchAuthMe();
         if (!cancelled) {
           setIsAuthenticated(!!logged);
-          setUser(null);
+          if (logged) {
+            const userData = await fetchMe();
+            if (!cancelled) setUser(userData);
+          }
         }
       } finally {
         if (!cancelled) setInitializing(false);
@@ -68,7 +72,9 @@ export function AuthProvider({ children }) {
     // Confirma sessão via fetchAuthMe (baseado no cookie e/ou token em memória)
     const logged = await fetchAuthMe();
     if (logged) {
+      const userData = await fetchMe();
       setIsAuthenticated(true);
+      setUser(userData);
       setLoginVisible(false);
       return true;
     }
@@ -84,16 +90,22 @@ export function AuthProvider({ children }) {
   const openLogin = useCallback(() => setLoginVisible(true), []);
   const closeLogin = useCallback(() => setLoginVisible(false), []);
 
+  const isAdmin = useMemo(() => {
+    if (!user?.roles) return false;
+    return user.roles.some((r) => r === 'ADMIN' || r === 'ROLE_ADMIN');
+  }, [user]);
+
   const value = useMemo(() => ({
     isAuthenticated,
     user,
+    isAdmin,
     initializing,
     login,
     logout,
     openLogin,
     closeLogin,
     loginVisible,
-  }), [isAuthenticated, user, initializing, login, logout, openLogin, closeLogin, loginVisible]);
+  }), [isAuthenticated, user, isAdmin, initializing, login, logout, openLogin, closeLogin, loginVisible]);
 
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

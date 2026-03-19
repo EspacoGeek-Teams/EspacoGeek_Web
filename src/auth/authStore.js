@@ -1,6 +1,7 @@
 import client from "../components/apollo/Client";
 import isLoggedQuery from "../components/apollo/schemas/queries/isLogged";
 import logoutQuery from "../components/apollo/schemas/queries/logout";
+import meQuery from "../components/apollo/schemas/queries/me";
 import { apiUri } from "../components/apollo/config";
 
 // In-memory Token + HTTPOnly Cookie Refresh Token pattern:
@@ -63,6 +64,19 @@ export async function fetchAuthMe() {
     return !!data?.isLogged;
   } catch (e) {
     return false;
+  }
+}
+
+// Busca os dados do usuário autenticado via GraphQL: query Me { me { id username email roles } }
+export async function fetchMe() {
+  try {
+    const { data } = await client.query({
+      query: meQuery,
+      fetchPolicy: 'no-cache',
+    });
+    return data?.me ?? null;
+  } catch {
+    return null;
   }
 }
 

@@ -2,10 +2,12 @@ import React, { useRef, useContext } from 'react';
 import { Avatar } from 'primereact/avatar';
 import UserPopUpMenu from './userPopUpMenu';
 import { AuthContext } from "../../contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function UserLogged() {
     const menu = useRef(null);
-    const { logout } = useContext(AuthContext);
+    const { logout, isAdmin } = useContext(AuthContext);
+    const router = useRouter();
 
     const items = [
         {
@@ -24,6 +26,16 @@ export default function UserLogged() {
             label: 'Settings',
             icon: 'pi pi-cog',
         },
+        ...(isAdmin ? [
+            {
+                separator: true
+            },
+            {
+                label: 'Admin - Batch Jobs',
+                icon: 'pi pi-server',
+                command: () => { router.push('/admin/batch-jobs'); }
+            },
+        ] : []),
         {
             separator: true
         },

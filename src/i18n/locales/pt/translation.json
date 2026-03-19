@@ -61,6 +61,40 @@
 		"about": "",
 		"role": "Responsável pelo Mobile (Flutter)"
 	},
+	"admin": {
+		"batchJobs": {
+			"pageTitle": "Admin - Jobs em Lote",
+			"title": "Painel de Jobs em Lote",
+			"description": "Gerencie e monitore os jobs de importação do Spring Batch. Acione jobs manualmente e acompanhe o status de execução em tempo real.",
+			"availableJobs": "Jobs Disponíveis",
+			"trigger": "Executar",
+			"recentExecutions": "Execuções Recentes",
+			"refresh": "Atualizar",
+			"noExecutions": "Nenhuma execução recente encontrada.",
+			"confirmHeader": "Confirmar Execução do Job",
+			"confirmTrigger": "Tem certeza que deseja acionar o job \"{{jobName}}\"?",
+			"confirmAccept": "Sim, executar",
+			"confirmReject": "Cancelar",
+			"triggerSuccess": "Job \"{{jobName}}\" acionado com sucesso!",
+			"accessDenied": "Acesso negado. Privilégios de administrador necessários.",
+			"jobs": {
+				"moviesImportJob": "Importação de Filmes",
+				"seriesImportJob": "Importação de Séries"
+			},
+			"jobDescriptions": {
+				"moviesImportJob": "Importa dados de filmes de arquivos JSON para o banco de dados.",
+				"seriesImportJob": "Importa dados de séries de TV de arquivos JSON para o banco de dados."
+			},
+			"columns": {
+				"jobName": "Nome do Job",
+				"executionId": "ID de Execução",
+				"status": "Status",
+				"startTime": "Início",
+				"endTime": "Fim",
+				"exitStatus": "Status de Saída"
+			}
+		}
+	},
 	"errors": {
 		"1001": "E-mail ou senha incorretos.",
 		"1002": "Sua sessão expirou, faça login novamente.",
