@@ -24,7 +24,7 @@ export function clearAccessToken() {
 
 // Requests a new access token from the backend using the HTTPOnly refresh token cookie.
 // Uses fetch directly (not Apollo) to avoid circular-dependency and retry-loop issues.
-// Returns the new access token string on success, or null on failure.
+// Returns { accessToken, user } on success, or null on failure.
 export async function refreshAccessToken() {
   try {
     const response = await fetch(apiUri, {
@@ -36,6 +36,12 @@ export async function refreshAccessToken() {
           mutation RefreshToken {
             refreshToken {
               accessToken
+              user {
+                id
+                email
+                username
+                roles
+              }
             }
           }
         `,
@@ -45,7 +51,7 @@ export async function refreshAccessToken() {
     const token = json?.data?.refreshToken?.accessToken;
     if (typeof token === 'string' && token.length > 0) {
       setAccessToken(token);
-      return token;
+      return { accessToken: token, user: json?.data?.refreshToken?.user ?? null };
     }
     return null;
   } catch {

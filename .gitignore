@@ -76,3 +76,4 @@ node_modules
 package-lock.json
 /.vite
 .github/copilot-instructions.md
+nohup.out

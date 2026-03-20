@@ -5,7 +5,8 @@
 		"register": "Registrar",
 		"login": "Entrar",
 		"user": "Usuário",
-		"logout": "Sair"
+		"logout": "Sair",
+		"adminPanel": "Painel Admin"
 	},
 	"search": {
 		"placeholder": "Buscar",
@@ -104,7 +105,43 @@
 		"confirmPassword": "Confirmar Senha",
 		"resetPassword": "Redefinir Senha"
 	},
-	"errors": {
+	"admin": {
+		"title": "Painel Admin",
+		"accessDenied": "Acesso Negado. Você precisa ser um administrador para visualizar esta página.",
+		"springBatch": {
+			"tab": "Spring Batch",
+			"runnableJobs": "Jobs Disponíveis",
+			"jobsTable": "Execuções de Jobs",
+			"noJobs": "Nenhum job encontrado.",
+			"columns": {
+				"id": "ID",
+				"jobName": "Nome do Job",
+				"status": "Status",
+				"startTime": "Início",
+				"endTime": "Fim",
+				"exitCode": "Código de Saída",
+				"actions": "Ações"
+			},
+			"actions": {
+				"start": "Iniciar",
+				"stop": "Parar",
+				"abandon": "Abandonar",
+				"restart": "Reiniciar",
+				"confirmStart": "Tem certeza que deseja iniciar o job \"{{name}}\"?",
+				"confirmStop": "Tem certeza que deseja parar este job?",
+				"confirmAbandon": "Tem certeza que deseja abandonar este job?",
+				"confirmRestart": "Tem certeza que deseja reiniciar este job?",
+				"startSuccess": "Job \"{{name}}\" iniciado com sucesso.",
+				"stopSuccess": "Job parado com sucesso.",
+				"abandonSuccess": "Job abandonado com sucesso.",
+				"restartSuccess": "Job reiniciado com sucesso.",
+				"startError": "Falha ao iniciar o job \"{{name}}\".",
+				"stopError": "Falha ao parar o job.",
+				"abandonError": "Falha ao abandonar o job.",
+				"restartError": "Falha ao reiniciar o job."
+			}
+		}
+	},
 		"1001": "E-mail ou senha incorretos.",
 		"1002": "Sua sessão expirou, faça login novamente.",
 		"2001": "Este e-mail já está em uso.",

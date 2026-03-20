@@ -5,7 +5,8 @@
 		"register": "Register",
 		"login": "Login",
 		"user": "User",
-		"logout": "Logout"
+		"logout": "Logout",
+		"adminPanel": "Admin Panel"
 	},
 	"search": {
 		"placeholder": "Search",
@@ -104,7 +105,43 @@
 		"confirmPassword": "Confirm Password",
 		"resetPassword": "Reset Password"
 	},
-	"errors": {
+	"admin": {
+		"title": "Admin Panel",
+		"accessDenied": "Access Denied. You must be an administrator to view this page.",
+		"springBatch": {
+			"tab": "Spring Batch",
+			"runnableJobs": "Runnable Jobs",
+			"jobsTable": "Job Executions",
+			"noJobs": "No jobs found.",
+			"columns": {
+				"id": "ID",
+				"jobName": "Job Name",
+				"status": "Status",
+				"startTime": "Start Time",
+				"endTime": "End Time",
+				"exitCode": "Exit Code",
+				"actions": "Actions"
+			},
+			"actions": {
+				"start": "Start",
+				"stop": "Stop",
+				"abandon": "Abandon",
+				"restart": "Restart",
+				"confirmStart": "Are you sure you want to start job \"{{name}}\"?",
+				"confirmStop": "Are you sure you want to stop this job?",
+				"confirmAbandon": "Are you sure you want to abandon this job?",
+				"confirmRestart": "Are you sure you want to restart this job?",
+				"startSuccess": "Job \"{{name}}\" started successfully.",
+				"stopSuccess": "Job stopped successfully.",
+				"abandonSuccess": "Job abandoned successfully.",
+				"restartSuccess": "Job restarted successfully.",
+				"startError": "Failed to start job \"{{name}}\".",
+				"stopError": "Failed to stop job.",
+				"abandonError": "Failed to abandon job.",
+				"restartError": "Failed to restart job."
+			}
+		}
+	},
 		"1001": "Incorrect email or password.",
 		"1002": "Your session has expired, please log in again.",
 		"2001": "This email is already in use.",
