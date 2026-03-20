@@ -102,7 +102,7 @@ export function TopBar() {
                 label: 'Settings',
                 icon: 'pi pi-cog',
             },
-            ...(user?.roles?.includes('ROLE_ADMIN') ? [{
+            ...(user?.roles?.includes('ROLE_admin') ? [{
                 label: t('nav.adminPanel'),
                 icon: 'pi pi-lock',
                 command: () => router.push('/admin'),
