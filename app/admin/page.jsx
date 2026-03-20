@@ -111,7 +111,7 @@ export default function AdminPage() {
             acceptClassName: 'p-button-success',
             accept: async () => {
                 try {
-                    await axios.post(`${apiUri}/api/batch/start`, { jobName }, { withCredentials: true });
+                    await axios.post(`${apiUri}/api/v1/batch/start`, { jobName }, { withCredentials: true });
                     showSuccess(t('admin.springBatch.actions.startSuccess', { name: jobName }));
                     loadJobs(lazyStateRef.current);
                 } catch {
@@ -129,7 +129,7 @@ export default function AdminPage() {
             acceptClassName: 'p-button-warning',
             accept: async () => {
                 try {
-                    await axios.post(`${apiUri}/api/batch/${job.id}/stop`, {}, { withCredentials: true });
+                    await axios.post(`${apiUri}/api/v1/batch/${job.id}/stop`, {}, { withCredentials: true });
                     showSuccess(t('admin.springBatch.actions.stopSuccess'));
                     loadJobs(lazyStateRef.current);
                 } catch {
@@ -147,7 +147,7 @@ export default function AdminPage() {
             acceptClassName: 'p-button-danger',
             accept: async () => {
                 try {
-                    await axios.post(`${apiUri}/api/batch/${job.id}/abandon`, {}, { withCredentials: true });
+                    await axios.post(`${apiUri}/api/v1/batch/${job.id}/abandon`, {}, { withCredentials: true });
                     showSuccess(t('admin.springBatch.actions.abandonSuccess'));
                     loadJobs(lazyStateRef.current);
                 } catch {
@@ -165,7 +165,7 @@ export default function AdminPage() {
             acceptClassName: 'p-button-info',
             accept: async () => {
                 try {
-                    await axios.post(`${apiUri}/api/batch/${job.id}/restart`, {}, { withCredentials: true });
+                    await axios.post(`${apiUri}/api/v1/batch/${job.id}/restart`, {}, { withCredentials: true });
                     showSuccess(t('admin.springBatch.actions.restartSuccess'));
                     loadJobs(lazyStateRef.current);
                 } catch {
