@@ -1,13 +1,10 @@
-import Link from 'next/link';
-import { ChevronRight, Rocket } from 'lucide-react';
+import { Rocket } from 'lucide-react';
 
 export default function HomeHero({
     badge,
     titlePrefix,
     titleHighlight,
     description,
-    launchLabel,
-    exploreLabel,
 }) {
     return (
         <section className="mb-16 text-center max-w-3xl mx-auto">
@@ -25,23 +22,6 @@ export default function HomeHero({
             <p className="animate-slide-up-delay-2 mx-auto mb-10 max-w-xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                 {description}
             </p>
-
-            <div className="animate-slide-up-delay-3 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Link
-                    href="/about"
-                    className="glow-button inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground"
-                >
-                    {launchLabel}
-                    <ChevronRight className="h-4 w-4" />
-                </Link>
-
-                <Link
-                    href="#categories"
-                    className="inline-flex items-center gap-2 rounded-lg border border-border px-8 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50"
-                >
-                    {exploreLabel}
-                </Link>
-            </div>
         </section>
     );
 }

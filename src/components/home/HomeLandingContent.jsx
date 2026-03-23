@@ -23,8 +23,6 @@ export default function HomeLandingContent() {
                 titlePrefix={t('homeLanding.titlePrefix')}
                 titleHighlight={t('homeLanding.titleHighlight')}
                 description={t('homeLanding.description')}
-                launchLabel={t('homeLanding.launchTracker')}
-                exploreLabel={t('homeLanding.exploreDemo')}
             />
 
             <MediaCategoryGrid categories={categories} />

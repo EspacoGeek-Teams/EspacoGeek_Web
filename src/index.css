@@ -45,7 +45,7 @@ body {
     --ring: 185 100% 50%;
     --neon-glow: 0 0 20px hsl(185 100% 50% / 0.4), 0 0 60px hsl(185 100% 50% / 0.15);
     --card-glow: 0 0 15px hsl(185 100% 50% / 0.15);
-    background-color: hsl(var(--background));
+    background-color: transparent;
     color: hsl(var(--foreground));
     font-family: var(--font-space-grotesk), 'Roboto', sans-serif;
 }

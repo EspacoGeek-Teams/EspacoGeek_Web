@@ -176,12 +176,12 @@ export function Footer() {
     const { t } = useTranslation();
     
     return (
-        <footer className="bg-white dark:bg-gray-900 bottom-0 right-0 left-0 !z-40 mt-10 relative">
+        <footer className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 bottom-0 right-0 left-0 !z-40 mt-10 relative">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div className="md:flex md:items-center md:justify-between">
                     <div className="mb-6 md:mb-0 flex items-center">
                         <a href="/" className="flex items-center">
-                            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">EG</span>
+                            <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-900 dark:text-white">EG</span>
                         </a>
                     </div>
 
