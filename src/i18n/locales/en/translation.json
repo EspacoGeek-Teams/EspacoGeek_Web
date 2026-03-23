@@ -64,6 +64,47 @@
 	"home": {
 		"welcome": "Welcome to EspaçoGeek!"
 	},
+	"homeLanding": {
+		"badge": "Mission Control for Your Hobbies",
+		"titlePrefix": "Your Universe of",
+		"titleHighlight": "Media",
+		"description": "One hub to track every anime, series, movie, visual novel, book and game across the cosmos. Never lose track again.",
+		"launchTracker": "Launch Tracker",
+		"exploreDemo": "Explore Demo",
+		"multiverseTagline": "[ TRACKING ACROSS THE MULTIVERSE ]",
+		"categories": {
+			"anime": {
+				"title": "Anime",
+				"description": "Track your watchlist and favorites",
+				"count": "∞ titles"
+			},
+			"series": {
+				"title": "Series",
+				"description": "Binge-worthy shows and seasons",
+				"count": "∞ titles"
+			},
+			"movies": {
+				"title": "Movies",
+				"description": "Cinema hits and hidden gems",
+				"count": "∞ titles"
+			},
+			"visualNovels": {
+				"title": "Visual Novels",
+				"description": "Story-driven adventures",
+				"count": "∞ titles"
+			},
+			"books": {
+				"title": "Books",
+				"description": "Manga, light novels and more",
+				"count": "∞ titles"
+			},
+			"games": {
+				"title": "Games",
+				"description": "RPGs, indie and AAA titles",
+				"count": "∞ titles"
+			}
+		}
+	},
 	"footer": {
 		"information": "INFORMATION",
 		"api": "API",

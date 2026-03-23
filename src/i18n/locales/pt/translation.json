@@ -64,6 +64,47 @@
 	"home": {
 		"welcome": "Bem-vindo ao EspaçoGeek!"
 	},
+	"homeLanding": {
+		"badge": "Centro de Comando para seus Hobbies",
+		"titlePrefix": "Seu Universo de",
+		"titleHighlight": "Mídia",
+		"description": "Um único hub para acompanhar cada anime, série, filme, visual novel, livro e jogo pelo cosmos. Nunca perca o controle novamente.",
+		"launchTracker": "Iniciar Tracker",
+		"exploreDemo": "Explorar Demo",
+		"multiverseTagline": "[ RASTREANDO PELO MULTIVERSO ]",
+		"categories": {
+			"anime": {
+				"title": "Anime",
+				"description": "Acompanhe sua lista e favoritos",
+				"count": "∞ títulos"
+			},
+			"series": {
+				"title": "Séries",
+				"description": "Séries e temporadas maratonáveis",
+				"count": "∞ títulos"
+			},
+			"movies": {
+				"title": "Filmes",
+				"description": "Sucessos de cinema e joias escondidas",
+				"count": "∞ títulos"
+			},
+			"visualNovels": {
+				"title": "Visual Novels",
+				"description": "Aventuras guiadas por narrativa",
+				"count": "∞ títulos"
+			},
+			"books": {
+				"title": "Livros",
+				"description": "Mangás, light novels e mais",
+				"count": "∞ títulos"
+			},
+			"games": {
+				"title": "Jogos",
+				"description": "RPGs, indies e títulos AAA",
+				"count": "∞ títulos"
+			}
+		}
+	},
 	"footer": {
 		"information": "INFORMAÇÕES",
 		"api": "API",
