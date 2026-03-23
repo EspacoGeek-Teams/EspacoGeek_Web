@@ -6,7 +6,8 @@
 		"login": "Login",
 		"user": "User",
 		"logout": "Logout",
-		"adminPanel": "Admin Panel"
+		"adminPanel": "Admin Panel",
+		"settings": "Settings"
 	},
 	"search": {
 		"placeholder": "Search",
@@ -140,6 +141,53 @@
 				"abandonError": "Failed to abandon job.",
 				"restartError": "Failed to restart job."
 			}
+		}
+	},
+	"settings": {
+		"title": "Account Settings",
+		"accessDenied": "You must be logged in to access this page.",
+		"username": {
+			"title": "Change Username",
+			"newUsername": "New Username",
+			"button": "Update Username",
+			"success": "Username updated successfully!",
+			"required": "Please enter a new username."
+		},
+		"email": {
+			"title": "Change Email",
+			"newEmail": "New Email",
+			"password": "Current Password",
+			"button": "Update Email",
+			"success": "A verification email has been sent to your new address.",
+			"required": "Please enter a new email address.",
+			"passwordRequired": "Please enter your current password."
+		},
+		"password": {
+			"title": "Change Password",
+			"currentPassword": "Current Password",
+			"newPassword": "New Password",
+			"confirmPassword": "Confirm New Password",
+			"button": "Update Password",
+			"success": "Password updated successfully!",
+			"mismatch": "New passwords do not match.",
+			"invalid": "New password does not meet the requirements."
+		},
+		"passwordReset": {
+			"title": "Forgot Password",
+			"description": "Enter your email address and we will send you a link to reset your password.",
+			"email": "Email Address",
+			"button": "Send Reset Link",
+			"success": "Password reset link sent! Check your email.",
+			"required": "Please enter your email address."
+		},
+		"deleteAccount": {
+			"title": "Delete Account",
+			"description": "This action is permanent and cannot be undone. All your data will be deleted.",
+			"password": "Confirm your password to delete your account",
+			"button": "Delete My Account",
+			"confirm": "Are you sure you want to delete your account? This cannot be undone.",
+			"success": "Your account has been deleted.",
+			"required": "Please enter your password to confirm."
 		}
 	},
 		"1001": "Incorrect email or password.",
