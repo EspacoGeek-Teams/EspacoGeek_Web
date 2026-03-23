@@ -231,6 +231,7 @@
 			"required": "Por favor, insira sua senha para confirmar."
 		}
 	},
+	"errors": {
 		"1001": "E-mail ou senha incorretos.",
 		"1002": "Sua sessão expirou, faça login novamente.",
 		"2001": "Este e-mail já está em uso.",

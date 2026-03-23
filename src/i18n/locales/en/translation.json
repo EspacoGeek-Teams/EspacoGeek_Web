@@ -231,6 +231,7 @@
 			"required": "Please enter your password to confirm."
 		}
 	},
+	"errors": {
 		"1001": "Incorrect email or password.",
 		"1002": "Your session has expired, please log in again.",
 		"2001": "This email is already in use.",
