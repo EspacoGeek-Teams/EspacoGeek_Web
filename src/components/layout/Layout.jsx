@@ -99,8 +99,9 @@ export function TopBar() {
                 icon: 'pi pi-bell',
             },
             {
-                label: 'Settings',
+                label: t('nav.settings'),
                 icon: 'pi pi-cog',
+                command: () => router.push('/settings'),
             },
             ...(user?.roles?.includes('ROLE_admin') ? [{
                 label: t('nav.adminPanel'),
@@ -108,7 +109,7 @@ export function TopBar() {
                 command: () => router.push('/admin'),
             }] : []),
             {
-                label: 'Logout',
+                label: t('nav.logout'),
                 icon: 'pi pi-sign-out',
                 command: () => { logout(); }
             }
@@ -207,8 +208,6 @@ export function Footer() {
 }
 
 export default function Layout({ children }) {
-    const { t } = useTranslation();
-    
     return <>
         <TopBar />
         

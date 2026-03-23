@@ -1,19 +1,17 @@
 import React, { useRef, useContext } from 'react';
 import { Avatar } from 'primereact/avatar';
 import UserPopUpMenu from './userPopUpMenu';
-import EditPasswordDialog from './EditPasswordDialog';
 import { AuthContext } from "../../contexts/AuthContext";
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 
 export default function UserLogged() {
     const menu = useRef(null);
-    const editPasswordRef = useRef(null);
     const { logout, user } = useContext(AuthContext);
     const { t } = useTranslation();
     const router = useRouter();
 
-    const isAdmin = user?.roles?.includes('ROLE_ADMIN');
+    const isAdmin = user?.roles?.includes('ROLE_admin');
 
     const items = [
         {
@@ -29,13 +27,9 @@ export default function UserLogged() {
             icon: 'pi pi-bell',
         },
         {
-            label: 'Settings',
+            label: t('nav.settings'),
             icon: 'pi pi-cog',
-        },
-        {
-            label: t('auth.changePassword.title'),
-            icon: 'pi pi-key',
-            command: () => editPasswordRef.current?.open(),
+            command: () => router.push('/settings'),
         },
         ...(isAdmin ? [
             {
@@ -51,7 +45,7 @@ export default function UserLogged() {
             separator: true
         },
         {
-            label: 'Logout',
+            label: t('nav.logout'),
             icon: 'pi pi-sign-out',
             command: () => { logout(); }
         }
@@ -63,7 +57,6 @@ export default function UserLogged() {
                 <Avatar icon="pi pi-user" className="mr-2" shape="circle" onClick={(e) => menu.current.toggle(e)} />
             </div>
             <UserPopUpMenu ref={menu} model={items} />
-            <EditPasswordDialog ref={editPasswordRef} />
         </>
     );
 }

@@ -6,7 +6,8 @@
 		"login": "Entrar",
 		"user": "Usuário",
 		"logout": "Sair",
-		"adminPanel": "Painel Admin"
+		"adminPanel": "Painel Admin",
+		"settings": "Configurações"
 	},
 	"search": {
 		"placeholder": "Buscar",
@@ -140,6 +141,53 @@
 				"abandonError": "Falha ao abandonar o job.",
 				"restartError": "Falha ao reiniciar o job."
 			}
+		}
+	},
+	"settings": {
+		"title": "Configurações da Conta",
+		"accessDenied": "Você precisa estar autenticado para acessar esta página.",
+		"username": {
+			"title": "Alterar Nome de Usuário",
+			"newUsername": "Novo Nome de Usuário",
+			"button": "Atualizar Nome de Usuário",
+			"success": "Nome de usuário atualizado com sucesso!",
+			"required": "Por favor, insira um novo nome de usuário."
+		},
+		"email": {
+			"title": "Alterar E-mail",
+			"newEmail": "Novo E-mail",
+			"password": "Senha Atual",
+			"button": "Atualizar E-mail",
+			"success": "Um e-mail de verificação foi enviado para o novo endereço.",
+			"required": "Por favor, insira um novo endereço de e-mail.",
+			"passwordRequired": "Por favor, insira sua senha atual."
+		},
+		"password": {
+			"title": "Alterar Senha",
+			"currentPassword": "Senha Atual",
+			"newPassword": "Nova Senha",
+			"confirmPassword": "Confirmar Nova Senha",
+			"button": "Atualizar Senha",
+			"success": "Senha atualizada com sucesso!",
+			"mismatch": "As novas senhas não coincidem.",
+			"invalid": "A nova senha não atende aos requisitos."
+		},
+		"passwordReset": {
+			"title": "Esqueci a Senha",
+			"description": "Insira seu endereço de e-mail e enviaremos um link para redefinir sua senha.",
+			"email": "Endereço de E-mail",
+			"button": "Enviar Link de Redefinição",
+			"success": "Link de redefinição de senha enviado! Verifique seu e-mail.",
+			"required": "Por favor, insira seu endereço de e-mail."
+		},
+		"deleteAccount": {
+			"title": "Excluir Conta",
+			"description": "Esta ação é permanente e não pode ser desfeita. Todos os seus dados serão excluídos.",
+			"password": "Confirme sua senha para excluir sua conta",
+			"button": "Excluir Minha Conta",
+			"confirm": "Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.",
+			"success": "Sua conta foi excluída.",
+			"required": "Por favor, insira sua senha para confirmar."
 		}
 	},
 		"1001": "E-mail ou senha incorretos.",

@@ -47,7 +47,7 @@ export default function AdminPage() {
         },
     });
 
-    const isAdmin = user?.roles?.includes('ROLE_ADMIN');
+    const isAdmin = user?.roles?.includes('ROLE_admin');
 
     // Keep a ref to the latest lazyState so callbacks don't capture stale closures
     const lazyStateRef = useRef(lazyState);
