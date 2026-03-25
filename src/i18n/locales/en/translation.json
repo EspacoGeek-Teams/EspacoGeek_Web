@@ -18,11 +18,24 @@
     "anime": "Anime"
 	},
 	"auth": {
+		"close": "Close authentication",
+		"loading": "Processing...",
+		"subtitle": {
+			"login": "Access your account in the geek universe",
+			"register": "Create your account and start the journey"
+		},
+		"switch": {
+			"promptRegister": "Don't have an account?",
+			"promptLogin": "Already have an account?",
+			"toRegister": "Sign up",
+			"toLogin": "Log in"
+		},
 		"login": {
 			"title": "Login",
 			"email": "Email",
 			"password": "Password",
-			"button": "Login",
+			"button": "Sign in",
+			"forgotPassword": "Forgot your password?",
 			"cancel": "Cancel"
 		},
 		"register": {
@@ -31,7 +44,7 @@
 			"email": "Email",
 			"password": "Password",
 			"confirmPassword": "Confirm Password",
-			"button": "Register",
+			"button": "Create Account",
 			"cancel": "Cancel",
 			"success": "User registered successfully!",
 			"passwordMismatch": "Passwords do not match.",
@@ -51,6 +64,12 @@
 	},
 	"password": {
 		"invalid": "Password does not meet the requirements.",
+		"strength": {
+			"prompt": "Enter a password",
+			"weak": "Weak",
+			"medium": "Medium",
+			"strong": "Strong"
+		},
 		"requirements": {
 			"title": "Password must contain:",
 			"length": "Between 8 and 70 characters",

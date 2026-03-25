@@ -10,8 +10,13 @@ export const AuthContext = createContext({
   initializing: true,
   login: async () => false,
   logout: () => {},
+  openAuth: () => {},
   openLogin: () => {},
+  openRegister: () => {},
   closeLogin: () => {},
+  closeAuth: () => {},
+  authMode: 'login',
+  authVisible: false,
   loginVisible: false,
 });
 
@@ -20,7 +25,8 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
-  const [loginVisible, setLoginVisible] = useState(false);
+  const [authVisible, setAuthVisible] = useState(false);
+  const [authMode, setAuthMode] = useState('login');
   const apollo = useApolloClient();
 
   useEffect(() => {
@@ -74,7 +80,7 @@ export function AuthProvider({ children }) {
       // Use user data returned directly by the login mutation
       setIsAuthenticated(true);
       setUser(loginData?.user ?? null);
-      setLoginVisible(false);
+      setAuthVisible(false);
       return true;
     }
     return false;
@@ -86,8 +92,15 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
-  const openLogin = useCallback(() => setLoginVisible(true), []);
-  const closeLogin = useCallback(() => setLoginVisible(false), []);
+  const openAuth = useCallback((mode = 'login') => {
+    setAuthMode(mode === 'register' ? 'register' : 'login');
+    setAuthVisible(true);
+  }, []);
+
+  const openLogin = useCallback(() => openAuth('login'), [openAuth]);
+  const openRegister = useCallback(() => openAuth('register'), [openAuth]);
+  const closeAuth = useCallback(() => setAuthVisible(false), []);
+  const closeLogin = closeAuth;
 
   const value = useMemo(() => ({
     isAuthenticated,
@@ -95,10 +108,15 @@ export function AuthProvider({ children }) {
     initializing,
     login,
     logout,
+    openAuth,
     openLogin,
+    openRegister,
     closeLogin,
-    loginVisible,
-  }), [isAuthenticated, user, initializing, login, logout, openLogin, closeLogin, loginVisible]);
+    closeAuth,
+    authMode,
+    authVisible,
+    loginVisible: authVisible && authMode === 'login',
+  }), [isAuthenticated, user, initializing, login, logout, openAuth, openLogin, openRegister, closeLogin, closeAuth, authMode, authVisible]);
 
   return (
     <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Password } from 'primereact/password';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
 import { Divider } from 'primereact/divider';
 import { useTranslation } from 'react-i18next';
 
@@ -44,12 +42,16 @@ const STRONG_REGEX = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!*@#$%^&+=])(?=\\S
 function PasswordInput({
     value = '',
     onChange,
+    inputId = 'password-input',
+    label = '',
     placeholder,
     loading = false,
     feedback = true,
-    inputClassName = 'px-12 p-4 text-xl',
+    inputClassName = '',
     className = '',
     disabled = false,
+    autoComplete,
+    maxLength,
 }) {
     const { t } = useTranslation();
     const [touched, setTouched] = useState(false);
@@ -82,25 +84,36 @@ function PasswordInput({
 
     return (
         <div className={`flex flex-col gap-1 ${className}`}>
-            <IconField iconPosition="left">
+            <div className="floating-label-group">
                 <Password
-                    placeholder={placeholder}
+                    inputId={inputId}
+                    placeholder=" "
                     value={value}
                     toggleMask
                     feedback={feedback}
                     footer={feedback ? requirementsPanel : null}
                     mediumRegex={MEDIUM_REGEX}
                     strongRegex={STRONG_REGEX}
-                    inputClassName={inputClassName}
+                    inputClassName={`w-full pr-10 ${inputClassName}`.trim()}
+                    className="w-full"
                     onInput={onChange}
                     onBlur={() => setTouched(true)}
                     disabled={disabled}
                     invalid={isInvalid}
+                    promptLabel={t('password.strength.prompt')}
+                    weakLabel={t('password.strength.weak')}
+                    mediumLabel={t('password.strength.medium')}
+                    strongLabel={t('password.strength.strong')}
+                    autoComplete={autoComplete}
+                    maxLength={maxLength}
                 />
-                <InputIcon className={loading ? 'pi pi-spin pi-spinner' : 'pi pi-lock'} />
-            </IconField>
+                <label htmlFor={inputId}>{label || placeholder}</label>
+            </div>
             {isInvalid && (
                 <small className="p-error block">{t('password.invalid')}</small>
+            )}
+            {loading && !feedback && (
+                <small className="text-xs text-surface-400">{t('auth.loading')}</small>
             )}
         </div>
     );
@@ -109,12 +122,16 @@ function PasswordInput({
 PasswordInput.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    inputId: PropTypes.string,
+    label: PropTypes.string,
     placeholder: PropTypes.string,
     loading: PropTypes.bool,
     feedback: PropTypes.bool,
     inputClassName: PropTypes.string,
     className: PropTypes.string,
     disabled: PropTypes.bool,
+    autoComplete: PropTypes.string,
+    maxLength: PropTypes.number,
 };
 
 export default PasswordInput;

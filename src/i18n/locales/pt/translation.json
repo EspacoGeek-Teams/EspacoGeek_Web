@@ -18,11 +18,24 @@
     "anime": "Anime"
 	},
 	"auth": {
+		"close": "Fechar autenticação",
+		"loading": "Processando...",
+		"subtitle": {
+			"login": "Acesse sua conta no universo geek",
+			"register": "Crie sua conta e embarque na jornada"
+		},
+		"switch": {
+			"promptRegister": "Não tem conta?",
+			"promptLogin": "Já tem conta?",
+			"toRegister": "Cadastre-se",
+			"toLogin": "Entrar"
+		},
 		"login": {
 			"title": "Entrar",
 			"email": "E-mail",
 			"password": "Senha",
-			"button": "Entrar",
+			"button": "Conectar-se",
+			"forgotPassword": "Esqueceu a senha?",
 			"cancel": "Cancelar"
 		},
 		"register": {
@@ -31,7 +44,7 @@
 			"email": "E-mail",
 			"password": "Senha",
 			"confirmPassword": "Confirmar Senha",
-			"button": "Registrar",
+			"button": "Criar Conta",
 			"cancel": "Cancelar",
 			"success": "Usuário registrado com sucesso!",
 			"passwordMismatch": "As senhas não coincidem.",
@@ -51,6 +64,12 @@
 	},
 	"password": {
 		"invalid": "A senha não atende aos requisitos.",
+		"strength": {
+			"prompt": "Digite uma senha",
+			"weak": "Fraca",
+			"medium": "Média",
+			"strong": "Forte"
+		},
 		"requirements": {
 			"title": "A senha deve conter:",
 			"length": "Entre 8 e 70 caracteres",

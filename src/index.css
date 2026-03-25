@@ -23,6 +23,7 @@ body {
 
 :root{
     --bg-second: #192028;
+    --font-display: var(--font-space-grotesk), 'Roboto', sans-serif;
 }
 
 .landing-home-theme {
@@ -74,6 +75,256 @@ body {
     transform: translateY(-2px);
 }
 
+.font-display {
+    font-family: var(--font-display);
+}
+
+.glass-card {
+    position: relative;
+    border-radius: 1.5rem;
+    border: 1px solid hsl(var(--border) / 0.5);
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+.neon-border {
+    position: relative;
+}
+
+.neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)), hsl(var(--secondary)), hsl(var(--accent)));
+    background-size: 300% 300%;
+    animation: neon-rotate 4s ease-in-out infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.neon-border::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, hsl(var(--secondary) / 0.3), hsl(var(--accent) / 0.3), hsl(var(--secondary) / 0.3));
+    background-size: 300% 300%;
+    animation: neon-rotate 4s ease-in-out infinite;
+    filter: blur(12px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.btn-neon,
+.btn-neon.p-button {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 0 20px hsl(var(--secondary) / 0.3), 0 0 40px hsl(var(--accent) / 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-neon:hover,
+.btn-neon.p-button:hover {
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--accent)));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 0 30px hsl(var(--secondary) / 0.5), 0 0 60px hsl(var(--accent) / 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-neon:focus-visible,
+.btn-neon.p-button:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--secondary) / 0.2), 0 0 30px hsl(var(--secondary) / 0.5), 0 0 60px hsl(var(--accent) / 0.25);
+}
+
+.auth-link-button,
+.auth-link-button.p-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+    box-shadow: none;
+}
+
+.auth-link-button:hover,
+.auth-link-button.p-button:hover {
+    background: transparent;
+    color: hsl(var(--secondary));
+}
+
+.auth-switch-button,
+.auth-switch-button.p-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: hsl(var(--secondary));
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.auth-switch-button:hover,
+.auth-switch-button.p-button:hover {
+    background: transparent;
+    color: hsl(var(--accent));
+}
+
+.floating-label-group {
+    position: relative;
+}
+
+.floating-label-group > input,
+.floating-label-group .p-inputtext,
+.floating-label-group .p-password-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    background: transparent;
+    color: hsl(var(--foreground));
+    padding: 1.2rem 1rem 0.55rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.floating-label-group .p-password {
+    display: block;
+    width: 100%;
+}
+
+.floating-label-group > input::placeholder,
+.floating-label-group .p-inputtext::placeholder,
+.floating-label-group .p-password-input::placeholder {
+    color: transparent;
+}
+
+.floating-label-group > input:focus,
+.floating-label-group .p-inputtext:focus,
+.floating-label-group .p-password-input:focus {
+    border-color: hsl(var(--secondary));
+    box-shadow: 0 0 0 2px hsl(var(--secondary) / 0.15);
+    outline: none;
+}
+
+.floating-label-group label {
+    pointer-events: none;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    transition: top 0.2s ease, transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+}
+
+.floating-label-group:has(input:focus) label,
+.floating-label-group:has(input:not(:placeholder-shown)) label,
+.floating-label-group:has(.p-inputtext:focus) label,
+.floating-label-group:has(.p-inputtext:not(:placeholder-shown)) label,
+.floating-label-group:has(.p-password-input:focus) label,
+.floating-label-group:has(.p-password-input:not(:placeholder-shown)) label {
+    top: 0.7rem;
+    transform: translateY(0);
+    font-size: 0.65rem;
+    color: hsl(var(--secondary));
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.floating-label-group .p-password .p-icon-field,
+.floating-label-group .p-password .p-input-icon-left,
+.floating-label-group .p-password .p-input-icon-right {
+    width: 100%;
+}
+
+.floating-label-group .p-password .p-password-toggle-mask-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--muted-foreground));
+    transition: color 0.2s ease;
+}
+
+.floating-label-group .p-password .p-password-toggle-mask-icon:hover {
+    color: hsl(var(--secondary));
+}
+
+.floating-label-group .p-password.p-inputwrapper-focus .p-password-toggle-mask-icon {
+    color: hsl(var(--secondary));
+}
+
+.floating-label-group .p-password-panel {
+    margin-top: 0.75rem;
+}
+
+.auth-modal-shell.p-dialog {
+    max-width: 32rem;
+    width: calc(100vw - 2rem);
+    background: transparent;
+    box-shadow: none;
+    border: 0;
+}
+
+.auth-modal-shell .p-dialog-content {
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+}
+
+.auth-modal-shell .p-dialog-header,
+.auth-modal-shell .p-dialog-footer {
+    display: none;
+}
+
+.auth-modal-mask {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgb(4 7 16 / 0.84);
+}
+
+.auth-modal-surface {
+    background: hsl(var(--card) / 0.9);
+    border-color: hsl(var(--secondary) / 0.2);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.45);
+}
+
+.auth-modal-close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card) / 0.45);
+    color: hsl(var(--muted-foreground));
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.auth-modal-close:hover {
+    border-color: hsl(var(--secondary) / 0.5);
+    color: hsl(var(--secondary));
+    background: hsl(var(--card) / 0.7);
+}
+
+.auth-modal-close:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--secondary) / 0.2);
+}
+
 .animate-slide-up-delay-1 {
     animation: slide-up 0.8s ease-out 0.15s forwards;
     opacity: 0;
@@ -108,6 +359,17 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes neon-rotate {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
     }
 }
 

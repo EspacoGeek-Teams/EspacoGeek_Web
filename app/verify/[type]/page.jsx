@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import Layout from "../../../src/components/layout/Layout";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@apollo/client";
@@ -10,8 +12,6 @@ import requestPasswordResetMutation from "../../../src/components/apollo/schemas
 import resetPasswordMutation from "../../../src/components/apollo/schemas/mutations/resetPassword";
 import verifyEmailChangeMutation from "../../../src/components/apollo/schemas/mutations/verifyEmailChange";
 import PasswordInput, { isValidPassword } from "../../../src/components/user/PasswordInput";
-
-const MIN_PASSWORD_LENGTH = 6;
 
 export default function VerifyPage() {
     const params = useParams();
@@ -111,89 +111,140 @@ export default function VerifyPage() {
 
     const isLoading = loadingVerify || loadingRequest || loadingReset || loadingVerifyChange;
 
+    const showRedirectingMessage = type === 'verify-email' || type === 'verify-email-change' || type === 'reset-password';
+
+    const cardTitle = type === 'request-password-reset'
+        ? t('settings.passwordReset.title')
+        : type === 'reset-password'
+            ? t('verify.resetPassword')
+            : t('verify.title');
+
+    const cardDescription = type === 'request-password-reset'
+        ? t('settings.passwordReset.description')
+        : type === 'reset-password'
+            ? t('settings.password.invalid')
+            : t('verify.loading');
+
     return (
         <Layout>
-            <div className="min-h-screen flex items-center justify-center p-4">
-                <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-                    <h1 className="text-2xl font-bold mb-6 text-center">{t('verify.title')}</h1>
+            <div className="landing-home-theme min-h-screen relative overflow-hidden px-4 py-12">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_hsl(var(--secondary)/0.14),_transparent_38%),radial-gradient(circle_at_bottom,_hsl(var(--primary)/0.12),_transparent_35%)]" />
 
-                    {isLoading && (
-                        <div className="flex flex-col items-center gap-3 py-8">
-                            <i className="pi pi-spin pi-spinner text-4xl text-blue-500" />
-                            <p className="text-gray-500">{t('verify.loading')}</p>
-                        </div>
-                    )}
+                <div className="relative z-10 flex min-h-screen items-center justify-center">
+                    <div className="glass-card neon-border w-full max-w-md overflow-hidden border-0 p-0">
+                        <div className="px-6 py-8 sm:px-8 sm:py-10">
+                            <div className="mb-8 text-center">
+                                <p className="font-display text-xs uppercase tracking-[0.35em] text-muted-foreground/70">
+                                    {t('verify.title')}
+                                </p>
+                                <h1 className="mt-4 font-display text-2xl font-bold tracking-wider text-foreground">
+                                    Espaço<span className="text-secondary">Geek</span>
+                                </h1>
+                                <p className="mt-2 text-sm text-muted-foreground">
+                                    {cardTitle}
+                                </p>
+                            </div>
 
-                    {!isLoading && status === 'success' && (
-                        <div className="flex flex-col items-center gap-3 py-6">
-                            <i className="pi pi-check-circle text-5xl text-green-500" />
-                            <p className="text-center text-green-700 dark:text-green-400 font-medium">{message}</p>
-                            {(type === 'verify-email' || type === 'verify-email-change' || type === 'reset-password') && (
-                                <p className="text-sm text-gray-500">{t('verify.redirecting')}</p>
+                            {isLoading && (
+                                <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card/40 px-6 py-10 text-center">
+                                    <i className="pi pi-spin pi-spinner text-4xl text-secondary" />
+                                    <p className="text-sm text-muted-foreground">{t('verify.loading')}</p>
+                                </div>
+                            )}
+
+                            {!isLoading && status === 'success' && (
+                                <div className="flex flex-col items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-6 py-8 text-center">
+                                    <i className="pi pi-check-circle text-5xl text-emerald-300" />
+                                    <p className="font-medium text-emerald-100">{message}</p>
+                                    {showRedirectingMessage && (
+                                        <p className="text-sm text-muted-foreground">{t('verify.redirecting')}</p>
+                                    )}
+                                </div>
+                            )}
+
+                            {!isLoading && status === 'error' && (
+                                <div className="mb-6 flex flex-col items-center gap-3 rounded-2xl border border-red-400/30 bg-red-400/10 px-6 py-6 text-center">
+                                    <i className="pi pi-times-circle text-5xl text-red-300" />
+                                    <p className="font-medium text-red-100">{message}</p>
+                                </div>
+                            )}
+
+                            {!isLoading && status !== 'success' && type === 'request-password-reset' && (
+                                <>
+                                    <p className="mb-6 text-center text-sm text-muted-foreground">{cardDescription}</p>
+                                    <form onSubmit={handleRequestReset} className="flex flex-col gap-4">
+                                        <div className="floating-label-group">
+                                            <InputText
+                                                id="verify-reset-email"
+                                                type="email"
+                                                value={email}
+                                                onChange={(event) => setEmail(event.target.value)}
+                                                placeholder=" "
+                                                autoComplete="email"
+                                                required
+                                                disabled={loadingRequest}
+                                            />
+                                            <label htmlFor="verify-reset-email">{t('settings.passwordReset.email')}</label>
+                                        </div>
+
+                                        <Button
+                                            type="submit"
+                                            loading={loadingRequest}
+                                            label={t('settings.passwordReset.button')}
+                                            className="btn-neon mt-2 w-full font-display text-sm tracking-widest uppercase"
+                                        />
+                                    </form>
+                                </>
+                            )}
+
+                            {!isLoading && status !== 'success' && type === 'reset-password' && (
+                                <form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+                                    <p className="text-center text-sm text-muted-foreground">
+                                        {t('password.requirements.title')}
+                                    </p>
+
+                                    <PasswordInput
+                                        inputId="verify-new-password"
+                                        label={t('verify.newPassword')}
+                                        value={newPassword}
+                                        onChange={(event) => setNewPassword(event.target.value)}
+                                        placeholder={t('verify.newPassword')}
+                                        feedback
+                                        disabled={loadingReset}
+                                        autoComplete="new-password"
+                                        maxLength={128}
+                                        className="gap-0"
+                                    />
+
+                                    <PasswordInput
+                                        inputId="verify-confirm-password"
+                                        label={t('verify.confirmPassword')}
+                                        value={confirmPassword}
+                                        onChange={(event) => setConfirmPassword(event.target.value)}
+                                        placeholder={t('verify.confirmPassword')}
+                                        feedback={false}
+                                        disabled={loadingReset}
+                                        autoComplete="new-password"
+                                        maxLength={128}
+                                        className="gap-0"
+                                    />
+
+                                    <Button
+                                        type="submit"
+                                        loading={loadingReset}
+                                        label={t('verify.resetPassword')}
+                                        className="btn-neon mt-2 w-full font-display text-sm tracking-widest uppercase"
+                                    />
+                                </form>
+                            )}
+
+                            {!isLoading && status !== 'success' && type !== 'request-password-reset' && type !== 'reset-password' && (
+                                <div className="rounded-2xl border border-border bg-card/30 px-6 py-8 text-center">
+                                    <p className="text-sm text-muted-foreground">{cardDescription}</p>
+                                </div>
                             )}
                         </div>
-                    )}
-
-                    {!isLoading && status === 'error' && (
-                        <div className="flex flex-col items-center gap-3 py-4">
-                            <i className="pi pi-times-circle text-5xl text-red-500" />
-                            <p className="text-center text-red-700 dark:text-red-400 font-medium">{message}</p>
-                        </div>
-                    )}
-
-                    {!isLoading && status !== 'success' && type === 'request-password-reset' && (
-                        <form onSubmit={handleRequestReset} className="flex flex-col gap-4 mt-4">
-                            <label className="flex flex-col gap-1">
-                                <span className="font-medium">{t('auth.login.email')}</span>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    required
-                                    className="border rounded-lg px-3 py-2 dark:bg-gray-700 dark:border-gray-600"
-                                />
-                            </label>
-                            <button
-                                type="submit"
-                                disabled={loadingRequest}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50"
-                            >
-                                {t('verify.send')}
-                            </button>
-                        </form>
-                    )}
-
-                    {!isLoading && status !== 'success' && type === 'reset-password' && (
-                        <form onSubmit={handleResetPassword} className="flex flex-col gap-4 mt-4">
-                            <label className="flex flex-col gap-1">
-                                <span className="font-medium">{t('verify.newPassword')}</span>
-                                <PasswordInput
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder={t('verify.newPassword')}
-                                    feedback
-                                    disabled={loadingReset}
-                                />
-                            </label>
-                            <label className="flex flex-col gap-1">
-                                <span className="font-medium">{t('verify.confirmPassword')}</span>
-                                <PasswordInput
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    placeholder={t('verify.confirmPassword')}
-                                    feedback={false}
-                                    disabled={loadingReset}
-                                />
-                            </label>
-                            <button
-                                type="submit"
-                                disabled={loadingReset}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50"
-                            >
-                                {t('verify.resetPassword')}
-                            </button>
-                        </form>
-                    )}
+                    </div>
                 </div>
             </div>
         </Layout>

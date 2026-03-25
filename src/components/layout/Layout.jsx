@@ -12,6 +12,7 @@ import { ProgressBar } from 'primereact/progressbar';
 import { GlobalLoadingContext } from "../../contexts/GlobalLoadingContext";
 import { UserOptions } from "../user/userOptions";
 import { AuthContext } from "../../contexts/AuthContext";
+import AuthModal from "../user/AuthModal";
 import UserPopUpMenu from "../user/userPopUpMenu";
 import { useTranslation } from 'react-i18next';
 import { apiUri } from "../apollo/config";
@@ -32,11 +33,9 @@ export function TopBar() {
     const handleNavToHome = () => router.push("/");
 
     const { globalLoading } = useContext(GlobalLoadingContext);
-    const { isAuthenticated, initializing, logout, user } = useContext(AuthContext);
+    const { isAuthenticated, initializing, logout, user, openLogin, openRegister } = useContext(AuthContext);
 
     const userMenuRef = useRef(null);
-    const registerDialogRef = useRef(null);
-    const loginDialogRef = useRef(null);
 
     const startContent = (
         <div className="flex flex-wrap align-items-center pl-5">
@@ -117,16 +116,12 @@ export function TopBar() {
             {
                 label: t('nav.register'),
                 icon: "pi pi-user-plus",
-                command: () => {
-                    registerDialogRef.current && registerDialogRef.current.open();
-                },
+                command: () => { openRegister(); },
             },
             {
                 label: t('nav.login'),
                 icon: "pi pi-sign-in",
-                command: () => {
-                    loginDialogRef.current && loginDialogRef.current.open();
-                },
+                command: () => { openLogin(); },
             }
         ])
     ];
@@ -164,6 +159,7 @@ export function TopBar() {
             {SearchComponent && <SearchBar handleClose={handleSearchClose} />}
 
             <UserPopUpMenu ref={userMenuRef} />
+            <AuthModal />
 
             <div>
                 <ScrollTop className="left-4 md:left-auto md:right-4" />

@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
-import LoginButton from "./userLogin";
-import UserRegister from "./userRegister";
 import UserLogged from "./userLogged";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Button } from 'primereact/button';
+import { Ripple } from 'primereact/ripple';
+import { useTranslation } from 'react-i18next';
 
 export function UserOptions() {
-    const { isAuthenticated, initializing } = useContext(AuthContext);
+    const { t } = useTranslation();
+    const { isAuthenticated, initializing, openLogin, openRegister } = useContext(AuthContext);
 
     return (
         <>
@@ -19,8 +21,24 @@ export function UserOptions() {
                     <UserLogged />
                 ) : (
                     <div>
-                        <UserRegister />
-                        <LoginButton />
+                        <Button
+                            link
+                            icon="pi pi-user-plus"
+                            label={t('nav.register')}
+                            type="button"
+                            className="text-white"
+                            onClick={openRegister}>
+                            <Ripple />
+                        </Button>
+                        <Button
+                            link
+                            icon="pi pi-sign-in"
+                            label={t('nav.login')}
+                            type="button"
+                            className="text-white"
+                            onClick={openLogin}>
+                            <Ripple />
+                        </Button>
                     </div>
                 )
             }
