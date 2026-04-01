@@ -1,5 +1,9 @@
 # EspacoGeek_Web-Front-End
 
+## Deployed on
+- API: https://api.espacogeek.com
+- WEB: https://espacogeek.com
+
 **Project**: EspacoGeek front-end web application built with Next.js.
 
 **Description**: This repository contains the Next.js frontend for EspacoGeek. The app is configured
