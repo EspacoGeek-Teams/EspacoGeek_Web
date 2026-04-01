@@ -4,11 +4,15 @@ import React, { useContext } from 'react';
 import { CalendarDays } from 'lucide-react';
 import { AuthContext } from '../../contexts/AuthContext';
 
-const ProfileHeader = () => {
-    const { user } = useContext(AuthContext);
+const ProfileHeader = ({ profileUser }) => {
+    const { user: authUser } = useContext(AuthContext);
+    const user = profileUser || authUser;
 
     const displayName = user?.displayName || user?.username || 'User';
     const username = user?.username || '';
+    const joinedAt = user?.createdAt
+        ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+        : null;
     const initials = displayName
         .split(' ')
         .map((w) => w[0])
@@ -44,7 +48,7 @@ const ProfileHeader = () => {
                         </p>
                         <div className="flex items-center gap-1.5 mt-3 text-xs text-gray-500">
                             <CalendarDays className="w-3.5 h-3.5" />
-                            <span>Join date not available yet</span>
+                            <span>{joinedAt ? `Joined ${joinedAt}` : 'Join date not available yet'}</span>
                         </div>
                     </div>
                 </div>
