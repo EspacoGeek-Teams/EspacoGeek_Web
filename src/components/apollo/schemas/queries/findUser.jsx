@@ -5,8 +5,6 @@ const findUserQuery = gql`
     findUser(username: $username) {
       id
       username
-      displayName
-      createdAt
     }
   }
 `;
