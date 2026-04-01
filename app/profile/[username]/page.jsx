@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@apollo/client';
 import { TopBar, Footer } from '../../../src/components/layout/Layout';
@@ -9,6 +9,7 @@ import StatsOverview from '../../../src/components/profile/StatsOverview';
 import MediaList from '../../../src/components/profile/MediaList';
 import ActivityHistory from '../../../src/components/profile/ActivityHistory';
 import findUserQuery from '../../../src/components/apollo/schemas/queries/findUser';
+import { AuthContext } from '../../../src/contexts/AuthContext';
 import { BarChart3, Clock, List } from 'lucide-react';
 
 const tabs = [
@@ -20,10 +21,11 @@ const tabs = [
 export default function UserProfilePage() {
     const { username } = useParams();
     const [activeTab, setActiveTab] = useState('dashboard');
+    const { initializing } = useContext(AuthContext);
 
     const { data, loading, error } = useQuery(findUserQuery, {
         variables: { username },
-        skip: !username,
+        skip: !username || initializing,
         context: { suppressErrors: true },
     });
 

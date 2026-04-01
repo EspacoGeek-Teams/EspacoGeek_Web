@@ -12,9 +12,9 @@ export default function ProfileRedirect() {
     useEffect(() => { document.title = 'Profile - EspaçoGeek'; }, []);
     useEffect(() => {
         if (!initializing) {
-            if (!isAuthenticated) {
+            if (!isAuthenticated || !user?.username) {
                 router.replace('/');
-            } else if (user?.username) {
+            } else {
                 router.replace(`/profile/${user.username}`);
             }
         }
