@@ -24,6 +24,7 @@ export default function UserProfilePage() {
     const { data, loading, error } = useQuery(findUserQuery, {
         variables: { username },
         skip: !username,
+        context: { suppressErrors: true },
     });
 
     useEffect(() => {

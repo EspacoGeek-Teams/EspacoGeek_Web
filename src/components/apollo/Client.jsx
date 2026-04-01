@@ -80,7 +80,9 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
     });
   }
 
-  if (graphQLErrors) {
+  const { suppressErrors } = operation.getContext();
+
+  if (!suppressErrors && graphQLErrors) {
     graphQLErrors.forEach((err) => {
       if (err?.extensions?.code === "UNAUTHENTICATED" || err?.extensions?.classification === "UNAUTHORIZED") return;
       const errorCode = err?.extensions?.errorCode;
@@ -91,7 +93,7 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
     });
   }
 
-  if (networkError) {
+  if (!suppressErrors && networkError) {
     triggerErrorNotification(i18n.t('errors.generic'));
   }
 });

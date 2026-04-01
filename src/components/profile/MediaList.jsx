@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { Star, LayoutGrid, List, LayoutList } from 'lucide-react';
 import getUserMediaQuery from '../apollo/schemas/queries/getUserMedia';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const CATEGORIES = [
     { id: 'all', label: 'All' },
@@ -66,8 +67,11 @@ const categoryIcons = {
 const MediaList = () => {
     const [viewMode, setViewMode] = useState('grid');
     const [categoryFilter, setCategoryFilter] = useState('all');
+    const { isAuthenticated } = useContext(AuthContext);
 
-    const { data, loading } = useQuery(getUserMediaQuery);
+    const { data, loading } = useQuery(getUserMediaQuery, {
+        skip: !isAuthenticated,
+    });
 
     const entries = (data?.getUserMedia ?? []).map((e) => ({
         id: e.id,
@@ -88,6 +92,14 @@ const MediaList = () => {
         return (
             <div className="text-center py-16 text-gray-500">
                 <p className="text-sm">Loading...</p>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return (
+            <div className="text-center py-16 text-gray-500">
+                <p className="text-lg">Log in to see your library</p>
             </div>
         );
     }
