@@ -3,10 +3,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { TopBar, Footer } from "../../../../src/components/layout/Layout";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import mediaQuery from "../../../../src/components/apollo/schemas/queries/mediaQuery";
+import { UPSERT_USER_MEDIA } from "../../../../src/components/apollo/schemas/mutations/upsertUserMedia";
 import '../../../../src/containers/media/media.css';
 import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
 import { Skeleton } from 'primereact/skeleton';
 import { Image } from 'primereact/image';
 import { GlobalLoadingContext } from "../../../../src/contexts/GlobalLoadingContext";
@@ -14,13 +16,20 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import YouTube from "../../../../src/components/youTubeEmbed/YouTubeEmbed";
 import { Timeline } from 'primereact/timeline';
 import { Divider } from 'primereact/divider';
+import { AuthContext } from "../../../../src/contexts/AuthContext";
+import { ErrorContext } from "../../../../src/contexts/ErrorContext";
+import { SuccessContext } from "../../../../src/contexts/SuccessContext";
+
+const STATUS_OPTIONS = ['PLANNING', 'IN_PROGRESS', 'PAUSED', 'COMPLETED', 'DROPPED'];
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 export default function Page({ params }) {
     const [mediaId, setMediaId] = useState(null);
-    
+    const [selectedStatus, setSelectedStatus] = useState('');
+    const [showStatusMenu, setShowStatusMenu] = useState(false);
+
     useEffect(() => {
         const resolveParams = async () => {
             // In Next.js 15+, params itself is a Promise
@@ -35,6 +44,34 @@ export default function Page({ params }) {
         skip: !mediaId 
     });
     const { setGlobalLoading } = useContext(GlobalLoadingContext);
+    const { isAuthenticated } = useContext(AuthContext);
+    const { showError } = useContext(ErrorContext);
+    const { showSuccess } = useContext(SuccessContext);
+
+    const [upsertUserMedia, { loading: upsertLoading }] = useMutation(UPSERT_USER_MEDIA, {
+        onCompleted: (mutationData) => {
+            const status = mutationData?.upsertUserMedia?.status;
+            if (status) setSelectedStatus(status);
+            showSuccess('Media added to your list!');
+            setShowStatusMenu(false);
+        },
+        onError: (err) => {
+            setSelectedStatus('');
+            showError(err.message);
+        },
+    });
+
+    function handleAddToList(status) {
+        if (!mediaId) return;
+        upsertUserMedia({
+            variables: {
+                input: {
+                    mediaId,
+                    status,
+                },
+            },
+        });
+    }
 
     useEffect(() => {
         setGlobalLoading(loading);
@@ -123,6 +160,47 @@ export default function Page({ params }) {
                             <p hidden={loading}>{data?.media.about}</p>
                         </ScrollPanel>
                     </div>
+                    {isAuthenticated && !loading && (
+                        <div className="relative mt-4">
+                            <Button
+                                label={selectedStatus ? selectedStatus.replace(/_/g, ' ') : 'Add to List'}
+                                icon={upsertLoading ? 'pi pi-spin pi-spinner' : 'pi pi-plus'}
+                                className="p-button-info"
+                                onClick={() => setShowStatusMenu((prev) => !prev)}
+                                disabled={upsertLoading}
+                                aria-haspopup="true"
+                                aria-expanded={showStatusMenu}
+                                aria-label="Add to List"
+                            />
+                            {showStatusMenu && (
+                                <div
+                                    role="menu"
+                                    aria-label="Select status"
+                                    className="absolute left-0 mt-1 w-48 rounded-lg shadow-lg bg-slate-800 border border-slate-600 z-50"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Escape') setShowStatusMenu(false);
+                                    }}
+                                >
+                                    {STATUS_OPTIONS.map((status) => (
+                                        <button
+                                            key={status}
+                                            role="menuitem"
+                                            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-700 first:rounded-t-lg last:rounded-b-lg"
+                                            onClick={() => handleAddToList(status)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' || e.key === ' ') {
+                                                    e.preventDefault();
+                                                    handleAddToList(status);
+                                                }
+                                            }}
+                                        >
+                                            {status.replace(/_/g, ' ')}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="relative flex flex-col-reverse md:flex-row items-center md:pl-28 pt-28 md:items-start gap-5">
