@@ -71,6 +71,7 @@ const MediaList = () => {
 
     const { data, loading } = useQuery(getUserMediaQuery, {
         skip: !isAuthenticated,
+        context: { suppressErrors: true },
     });
 
     const entries = (data?.getUserMedia ?? []).map((e) => ({
