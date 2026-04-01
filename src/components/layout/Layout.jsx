@@ -88,6 +88,7 @@ export function TopBar() {
             {
                 label: 'Profile',
                 icon: 'pi pi-user',
+                command: () => router.push('/profile'),
             },
             {
                 label: 'Lists',

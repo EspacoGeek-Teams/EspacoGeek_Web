@@ -17,6 +17,7 @@ export default function UserLogged() {
         {
             label: 'Profile',
             icon: 'pi pi-user',
+            command: () => router.push('/profile'),
         },
         {
             label: 'Lists',
