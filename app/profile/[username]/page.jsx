@@ -11,8 +11,6 @@ import ActivityHistory from '../../../src/components/profile/ActivityHistory';
 import findUserQuery from '../../../src/components/apollo/schemas/queries/findUser';
 import { BarChart3, Clock, List } from 'lucide-react';
 
-const STATUS_TABS = ['PLANNING', 'IN_PROGRESS', 'PAUSED', 'COMPLETED', 'DROPPED'];
-
 const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: <BarChart3 className="w-4 h-4" /> },
     { id: 'list', label: 'Library', icon: <List className="w-4 h-4" /> },
@@ -22,7 +20,6 @@ const tabs = [
 export default function UserProfilePage() {
     const { username } = useParams();
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [statusFilter, setStatusFilter] = useState('IN_PROGRESS');
 
     const { data, loading, error } = useQuery(findUserQuery, {
         variables: { username },
@@ -77,32 +74,13 @@ export default function UserProfilePage() {
                     ))}
                 </div>
 
-                {/* Status filter for Library tab */}
-                {activeTab === 'list' && (
-                    <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-                        {STATUS_TABS.map((s) => (
-                            <button
-                                key={s}
-                                onClick={() => setStatusFilter(s)}
-                                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all duration-200 active:scale-[0.96] ${
-                                    statusFilter === s
-                                        ? 'bg-teal-400 text-slate-900'
-                                        : 'bg-slate-700 bg-opacity-50 text-gray-300 hover:text-white'
-                                }`}
-                            >
-                                {s.replace(/_/g, ' ')}
-                            </button>
-                        ))}
-                    </div>
-                )}
-
                 {/* Content */}
-                {/* TODO: StatsOverview, MediaList, ActivityHistory currently fetch data for
-                    the authenticated user. Future work should pass `profileUser` and update
-                    these components to fetch data for the viewed user instead. */}
+                {/* TODO: StatsOverview and ActivityHistory currently fetch data for the
+                    authenticated user. Future work should update them to accept a username
+                    and fetch data for the viewed user instead. */}
                 <div>
                     {activeTab === 'dashboard' && <StatsOverview />}
-                    {activeTab === 'list' && <MediaList status={statusFilter} />}
+                    {activeTab === 'list' && <MediaList />}
                     {activeTab === 'history' && (
                         <div className="max-w-2xl">
                             <h2 className="text-lg font-semibold text-white mb-4">Recent Activity</h2>
@@ -115,3 +93,4 @@ export default function UserProfilePage() {
         </>
     );
 }
+
