@@ -5,6 +5,9 @@ const findUserQuery = gql`
     findUser(username: $username) {
       id
       username
+      email
+      roles
+      privateList
     }
   }
 `;

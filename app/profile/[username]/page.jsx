@@ -33,7 +33,9 @@ export default function UserProfilePage() {
         document.title = username ? `${username} - EspaçoGeek` : 'Profile - EspaçoGeek';
     }, [username]);
 
-    const profileUser = data?.findUser ?? null;
+    const profileUser = Array.isArray(data?.findUser)
+        ? data.findUser[0] ?? null
+        : data?.findUser ?? null;
 
     if (loading) return (
         <>

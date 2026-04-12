@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { CalendarDays } from 'lucide-react';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -55,6 +56,18 @@ const ProfileHeader = ({ profileUser }) => {
             </div>
         </div>
     );
+};
+
+ProfileHeader.propTypes = {
+    profileUser: PropTypes.shape({
+        displayName: PropTypes.string,
+        username: PropTypes.string,
+        createdAt: PropTypes.string,
+    }),
+};
+
+ProfileHeader.defaultProps = {
+    profileUser: null,
 };
 
 export default ProfileHeader;
