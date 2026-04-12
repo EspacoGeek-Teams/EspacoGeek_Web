@@ -63,10 +63,15 @@ export default function Page({ params }) {
 
     function handleAddToList(status) {
         if (!mediaId) return;
+
+        const normalizedMediaId = Number.isNaN(Number(mediaId))
+            ? mediaId
+            : Number(mediaId);
+
         upsertUserMedia({
             variables: {
                 input: {
-                    mediaId,
+                    mediaId: normalizedMediaId,
                     status,
                 },
             },
@@ -184,6 +189,7 @@ export default function Page({ params }) {
                                     {STATUS_OPTIONS.map((status) => (
                                         <button
                                             key={status}
+                                            type="button"
                                             role="menuitem"
                                             className="w-full text-left px-4 py-2 text-sm hover:bg-slate-700 first:rounded-t-lg last:rounded-b-lg"
                                             onClick={() => handleAddToList(status)}
