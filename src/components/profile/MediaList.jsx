@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/client';
 import { Star, LayoutGrid, List, LayoutList } from 'lucide-react';
-import getUserMediaQuery from '../apollo/schemas/queries/getUserMedia';
-import { AuthContext } from '../../contexts/AuthContext';
+import findUserMediaLibraryQuery from '../apollo/schemas/queries/findUserMediaLibrary';
 
 const CATEGORIES = [
     { id: 'all', label: 'All' },
@@ -64,17 +64,18 @@ const categoryIcons = {
     books: '📖',
 };
 
-const MediaList = () => {
+const MediaList = ({ userId }) => {
     const [viewMode, setViewMode] = useState('grid');
     const [categoryFilter, setCategoryFilter] = useState('all');
-    const { isAuthenticated } = useContext(AuthContext);
 
-    const { data, loading } = useQuery(getUserMediaQuery, {
-        skip: !isAuthenticated,
+    const { data, loading } = useQuery(findUserMediaLibraryQuery, {
+        variables: { userId },
+        skip: !userId,
+        fetchPolicy: 'cache-and-network',
         context: { suppressErrors: true },
     });
 
-    const entries = (data?.getUserMedia ?? []).map((e) => ({
+    const entries = (data?.findUserMediaLibrary ?? []).map((e) => ({
         id: e.id,
         title: e.media?.name ?? '—',
         status: e.status,
@@ -97,10 +98,10 @@ const MediaList = () => {
         );
     }
 
-    if (!isAuthenticated) {
+    if (!userId) {
         return (
             <div className="text-center py-16 text-gray-500">
-                <p className="text-lg">Log in to see your library</p>
+                <p className="text-lg">Library unavailable</p>
             </div>
         );
     }
@@ -283,6 +284,14 @@ const MediaList = () => {
             )}
         </div>
     );
+};
+
+MediaList.propTypes = {
+    userId: PropTypes.number,
+};
+
+MediaList.defaultProps = {
+    userId: null,
 };
 
 export default MediaList;

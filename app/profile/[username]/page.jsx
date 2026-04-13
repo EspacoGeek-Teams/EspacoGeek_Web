@@ -9,6 +9,7 @@ import StatsOverview from '../../../src/components/profile/StatsOverview';
 import MediaList from '../../../src/components/profile/MediaList';
 import ActivityHistory from '../../../src/components/profile/ActivityHistory';
 import findUserQuery from '../../../src/components/apollo/schemas/queries/findUser';
+import findUserMediaLibraryQuery from '../../../src/components/apollo/schemas/queries/findUserMediaLibrary';
 import { AuthContext } from '../../../src/contexts/AuthContext';
 import { BarChart3, Clock, List } from 'lucide-react';
 
@@ -26,16 +27,32 @@ export default function UserProfilePage() {
     const { data, loading, error } = useQuery(findUserQuery, {
         variables: { username },
         skip: !username || initializing,
+        fetchPolicy: 'cache-and-network',
         context: { suppressErrors: true },
     });
-
-    useEffect(() => {
-        document.title = username ? `${username} - EspaçoGeek` : 'Profile - EspaçoGeek';
-    }, [username]);
 
     const profileUser = Array.isArray(data?.findUser)
         ? data.findUser[0] ?? null
         : data?.findUser ?? null;
+
+    const { data: libraryData } = useQuery(findUserMediaLibraryQuery, {
+        variables: { userId: profileUser?.id },
+        skip: !profileUser?.id,
+        fetchPolicy: 'cache-and-network',
+        context: { suppressErrors: true },
+    });
+
+    const activityEntries = (libraryData?.findUserMediaLibrary ?? []).map((e) => ({
+        id: e.id,
+        title: e.media?.name ?? '—',
+        status: e.status,
+        category: e.media?.mediaCategory?.typeCategory?.toLowerCase() ?? '',
+        lastUpdated: e.finishDate ?? e.startDate ?? new Date().toISOString(),
+    }));
+
+    useEffect(() => {
+        document.title = username ? `${username} - EspaçoGeek` : 'Profile - EspaçoGeek';
+    }, [username]);
 
     if (loading) return (
         <>
@@ -80,16 +97,13 @@ export default function UserProfilePage() {
                 </div>
 
                 {/* Content */}
-                {/* TODO: StatsOverview and ActivityHistory currently fetch data for the
-                    authenticated user. Future work should update them to accept a username
-                    and fetch data for the viewed user instead. */}
                 <div>
                     {activeTab === 'dashboard' && <StatsOverview />}
-                    {activeTab === 'list' && <MediaList />}
+                    {activeTab === 'list' && <MediaList userId={profileUser?.id} />}
                     {activeTab === 'history' && (
                         <div className="max-w-2xl">
                             <h2 className="text-lg font-semibold text-white mb-4">Recent Activity</h2>
-                            <ActivityHistory />
+                            <ActivityHistory entries={activityEntries} />
                         </div>
                     )}
                 </div>
