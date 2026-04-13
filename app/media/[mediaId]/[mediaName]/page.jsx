@@ -64,14 +64,16 @@ export default function Page({ params }) {
     function handleAddToList(status) {
         if (!mediaId) return;
 
-        const normalizedMediaId = Number.isNaN(Number(mediaId))
-            ? mediaId
-            : Number(mediaId);
+        const parsedId = parseInt(mediaId, 10);
+        if (Number.isNaN(parsedId)) {
+            showError('Invalid media ID.');
+            return;
+        }
 
         upsertUserMedia({
             variables: {
                 input: {
-                    mediaId: normalizedMediaId,
+                    mediaId: parsedId,
                     status,
                 },
             },
