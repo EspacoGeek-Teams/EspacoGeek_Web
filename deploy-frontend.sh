@@ -176,6 +176,8 @@ start_new_container() {
     fi
 
     if ! docker run -d \
+        --memory="256m" \
+        --cpus="0.1" \
         --name "$CONTAINER_NAME" \
         --network "$NETWORK_NAME" \
         --restart unless-stopped \
